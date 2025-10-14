@@ -1,9 +1,14 @@
 {
   "version": 2,
   "name": "raj-ai-coding-tool",
-  "buildCommand": "cd client && npm install && npm run build",
-  "outputDirectory": "client/build",
   "builds": [
+    {
+      "src": "client/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "build"
+      }
+    },
     {
       "src": "server/index.js",
       "use": "@vercel/node"
@@ -15,12 +20,23 @@
       "dest": "/server/index.js"
     },
     {
+      "src": "/static/(.*)",
+      "dest": "/client/static/$1"
+    },
+    {
+      "src": "/favicon.ico",
+      "dest": "/client/favicon.ico"
+    },
+    {
+      "src": "/manifest.json",
+      "dest": "/client/manifest.json"
+    },
+    {
       "src": "/(.*)",
-      "dest": "/client/build/$1"
+      "dest": "/client/index.html"
     }
   ],
   "env": {
     "NODE_ENV": "production"
   }
 }
-
