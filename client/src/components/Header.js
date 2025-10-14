@@ -11,7 +11,7 @@ const Header = ({ selectedModel, models, onModelChange, layout, onLayoutChange, 
         </div>
         <div>
           <h1 className="heading-4 leading-tight">RAJ AI CODING TOOL</h1>
-          <p className="caption">Powered by AWS Bedrock & Claude</p>
+          <p className="caption">Multi-Agent AI Orchestration • AWS Bedrock & Claude</p>
         </div>
       </div>
 
@@ -73,19 +73,11 @@ const Header = ({ selectedModel, models, onModelChange, layout, onLayoutChange, 
           </button>
         </div>
 
-        {/* Multi-Agent Toggle */}
-        <button
-          onClick={onMultiAgentToggle}
-          className={`flex items-center gap-2 px-3 py-2 rounded-lg border-2 transition-all font-semibold text-sm ${
-            multiAgentMode
-              ? 'bg-orange-500 text-white border-orange-500 shadow-md'
-              : 'bg-white text-gray-700 border-gray-200 hover:border-orange-300'
-          }`}
-          title={multiAgentMode ? 'Multi-Agent Mode Active' : 'Single Agent Mode'}
-        >
+        {/* Multi-Agent Badge */}
+        <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-md font-semibold text-sm">
           <Users className="w-4 h-4" />
-          <span>{multiAgentMode ? 'Multi-Agent' : 'Single'}</span>
-        </button>
+          <span>8-Agent System</span>
+        </div>
 
         {/* Status Indicator */}
         <div className="flex items-center gap-2 px-3 py-2 bg-gray-50 rounded-lg border border-gray-200">

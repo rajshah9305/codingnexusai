@@ -20,8 +20,8 @@ function App() {
   const [chatHistory, setChatHistory] = useState([]);
   const [layout, setLayout] = useState('split');
   
-  // Multi-Agent State
-  const [multiAgentMode, setMultiAgentMode] = useState(false);
+  // Multi-Agent State (Always Enabled)
+  const [multiAgentMode, setMultiAgentMode] = useState(true);
   const [agents, setAgents] = useState([]);
   const [agentMetrics, setAgentMetrics] = useState(null);
   const [activeAgents, setActiveAgents] = useState([]);
@@ -90,65 +90,41 @@ function App() {
     try {
       let result;
       
-      if (multiAgentMode) {
-        // Use Multi-Agent Orchestration
-        console.log('Using multi-agent orchestration...');
-        
-        // Set default options for multi-agent
-        const multiAgentOptions = {
-          includeTests: options.includeTests !== false,
-          includeSecurity: options.includeSecurity !== false,
-          includePerformance: options.includePerformance || false,
-          includeDocs: options.includeDocs !== false,
-          ...options
-        };
-        
-        result = await aiService.orchestrateMultiAgent(prompt, multiAgentOptions);
-        
-        // Update multi-agent state
-        if (result.executionPlan) {
-          setExecutionPlan(result.executionPlan);
-          setActiveAgents(result.agentContributions || []);
-        }
-        
-        // Update code if available
-        if (result.code && result.code.length > 0) {
-          setCode(result.code[0]);
-          setLanguage(result.language);
-        }
-        
-        setChatHistory(prev => [...prev, {
-          type: 'assistant',
-          content: result.explanation || 'Multi-agent task completed',
-          data: result,
-          multiAgent: true
-        }]);
-        
-        // Refresh metrics
-        loadMetrics();
-      } else {
-        // Use Single Agent
-        result = await aiService.generateCode(prompt, selectedModel, type);
-        
-        if (type === 'fullstack') {
-          setChatHistory(prev => [...prev, {
-            type: 'assistant',
-            content: 'Generated full-stack application',
-            data: result
-          }]);
-        } else {
-          if (result.code && result.code.length > 0) {
-            setCode(result.code[0]);
-            setLanguage(result.language);
-          }
-          
-          setChatHistory(prev => [...prev, {
-            type: 'assistant',
-            content: result.explanation,
-            code: result.code
-          }]);
-        }
+      // Always use Multi-Agent Orchestration
+      console.log('Using multi-agent orchestration...');
+      
+      // Set default options for multi-agent
+      const multiAgentOptions = {
+        includeTests: options.includeTests !== false,
+        includeSecurity: options.includeSecurity !== false,
+        includePerformance: options.includePerformance || false,
+        includeDocs: options.includeDocs !== false,
+        ...options
+      };
+      
+      result = await aiService.orchestrateMultiAgent(prompt, multiAgentOptions);
+      
+      // Update multi-agent state
+      if (result.executionPlan) {
+        setExecutionPlan(result.executionPlan);
+        setActiveAgents(result.agentContributions || []);
       }
+      
+      // Update code if available
+      if (result.code && result.code.length > 0) {
+        setCode(result.code[0]);
+        setLanguage(result.language);
+      }
+      
+      setChatHistory(prev => [...prev, {
+        type: 'assistant',
+        content: result.explanation || 'Multi-agent task completed',
+        data: result,
+        multiAgent: true
+      }]);
+      
+      // Refresh metrics
+      loadMetrics();
     } catch (error) {
       console.error('Generation failed:', error);
       setChatHistory(prev => [...prev, {
@@ -196,8 +172,8 @@ function App() {
         onModelChange={setSelectedModel}
         layout={layout}
         onLayoutChange={setLayout}
-        multiAgentMode={multiAgentMode}
-        onMultiAgentToggle={() => setMultiAgentMode(!multiAgentMode)}
+        multiAgentMode={true}
+        onMultiAgentToggle={() => {}}
       />
       
       <div className="flex-1 flex overflow-hidden min-h-0">
@@ -207,30 +183,24 @@ function App() {
           {(layout === 'split' || layout === 'preview') && (
             <div className={`${layout === 'split' ? 'w-[52%]' : 'w-full'} flex flex-col border-r border-gray-200 bg-white`}>
               {/* Chat Panel */}
-              <div className={multiAgentMode ? 'h-1/2 border-b border-gray-200' : 'flex-1 min-h-0'}>
+              <div className="h-1/2 border-b border-gray-200">
                 <ChatPanel
                   history={chatHistory}
                   onSendMessage={(message) => handleGenerate(message)}
                   isGenerating={isGenerating}
-                  multiAgentMode={multiAgentMode}
+                  multiAgentMode={true}
                 />
               </div>
               
-              {/* Agent Collaboration View (Multi-Agent Mode) OR Preview Panel */}
-              {multiAgentMode ? (
-                <div className="h-1/2">
-                  <AgentCollaboration
-                    executionPlan={executionPlan}
-                    activeStep={activeStep}
-                    agentResults={{}}
-                    isExecuting={isGenerating}
-                  />
-                </div>
-              ) : (
-                <div className="h-[360px] border-t border-gray-200">
-                  <PreviewPanel preview={preview} />
-                </div>
-              )}
+              {/* Agent Collaboration View */}
+              <div className="h-1/2">
+                <AgentCollaboration
+                  executionPlan={executionPlan}
+                  activeStep={activeStep}
+                  agentResults={{}}
+                  isExecuting={isGenerating}
+                />
+              </div>
             </div>
           )}
           
@@ -273,7 +243,7 @@ function App() {
           onGenerate={handleGenerate}
           onDebug={handleDebug}
           isGenerating={isGenerating}
-          multiAgentMode={multiAgentMode}
+          multiAgentMode={true}
         />
       </div>
       

@@ -17,7 +17,7 @@ class BedrockService {
     
     this.client = new BedrockRuntimeClient(config);
     
-    // Using foundation models available in us-west-2
+    // Using foundation models available in us-east-1
     this.models = {
       // Claude models (Anthropic)
       'claude-3.7-sonnet': 'anthropic.claude-3-7-sonnet-20250219-v1:0',
@@ -27,6 +27,8 @@ class BedrockService {
       'claude-3-sonnet': 'anthropic.claude-3-sonnet-20240229-v1:0',
       'claude-3-haiku': 'anthropic.claude-3-haiku-20240307-v1:0',
       'claude-3-opus': 'anthropic.claude-3-opus-20240229-v1:0',
+      'claude-sonnet-4': 'anthropic.claude-sonnet-4-20250514-v1:0',
+      'claude-opus-4': 'anthropic.claude-opus-4-20250514-v1:0',
       
       // Llama models (Meta)
       'llama3-70b-instruct': 'meta.llama3-70b-instruct-v1:0',

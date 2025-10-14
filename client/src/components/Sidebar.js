@@ -102,12 +102,13 @@ const Sidebar = ({ onGenerate, onDebug, isGenerating, multiAgentMode }) => {
   const handleQuickAction = (action) => {
     const userInput = prompt(`${action.prompt}:`);
     if (userInput) {
-      const options = multiAgentMode ? {
+      // Always use multi-agent options
+      const options = {
         includeTests: true,
         includeSecurity: true,
         includePerformance: false,
         includeDocs: true
-      } : {};
+      };
       onGenerate(`${action.prompt} ${userInput}`, action.type, options);
     }
   };
@@ -139,9 +140,7 @@ const Sidebar = ({ onGenerate, onDebug, isGenerating, multiAgentMode }) => {
           </div>
           <div>
             <h2 className="heading-4 text-base">AI Tools</h2>
-            {multiAgentMode && (
-              <p className="text-xs text-orange-600 font-semibold">Multi-Agent Active</p>
-            )}
+            <p className="text-xs text-orange-600 font-semibold">8-Agent System</p>
           </div>
         </div>
       </div>
