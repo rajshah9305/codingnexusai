@@ -113,6 +113,27 @@ class MultiAgentOrchestrator {
   }
 
   /**
+   * Helper method to retry with exponential backoff
+   */
+  async retryWithBackoff(fn, maxRetries = 3, baseDelay = 2000) {
+    for (let attempt = 0; attempt < maxRetries; attempt++) {
+      try {
+        return await fn();
+      } catch (error) {
+        const isRateLimit = error.message && error.message.includes('Too many requests');
+        
+        if (isRateLimit && attempt < maxRetries - 1) {
+          const delay = baseDelay * Math.pow(2, attempt);
+          console.log(`[Orchestrator] Rate limit hit, retrying in ${delay}ms (attempt ${attempt + 1}/${maxRetries})...`);
+          await new Promise(resolve => setTimeout(resolve, delay));
+          continue;
+        }
+        throw error;
+      }
+    }
+  }
+
+  /**
    * Main orchestration method - coordinates multiple agents
    */
   async orchestrate(userRequest, options = {}) {
@@ -121,17 +142,29 @@ class MultiAgentOrchestrator {
     console.log('[Orchestrator] Starting multi-agent orchestration...');
     
     try {
-      // Step 1: Supervisor creates execution plan
-      const executionPlan = await this.createExecutionPlan(userRequest, options, model);
+      // Step 1: Supervisor creates execution plan (with retry)
+      const executionPlan = await this.retryWithBackoff(
+        () => this.createExecutionPlan(userRequest, options, model),
+        3,
+        2000
+      );
       
       // Step 2: Execute agent tasks
       const agentResults = await this.executeAgentTasks(executionPlan, model);
       
-      // Step 3: Integrate results
-      const integratedResult = await this.integrateResults(agentResults, executionPlan, model);
+      // Step 3: Integrate results (with retry)
+      const integratedResult = await this.retryWithBackoff(
+        () => this.integrateResults(agentResults, executionPlan, model),
+        3,
+        3000
+      );
       
-      // Step 4: Final quality check
-      const finalResult = await this.qualityCheck(integratedResult, executionPlan, model);
+      // Step 4: Final quality check (with retry)
+      const finalResult = await this.retryWithBackoff(
+        () => this.qualityCheck(integratedResult, executionPlan, model),
+        2,
+        2000
+      );
       
       // Step 5: Record execution for metrics
       this.recordExecution(userRequest, executionPlan, finalResult);

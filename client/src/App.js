@@ -3,7 +3,6 @@ import { Toaster } from 'react-hot-toast';
 import Header from './components/Header';
 import Sidebar from './components/Sidebar';
 import CodeEditor from './components/CodeEditor';
-import PreviewPanel from './components/PreviewPanel';
 import ChatPanel from './components/ChatPanel';
 import AgentDashboard from './components/AgentDashboard';
 import AgentCollaboration from './components/AgentCollaboration';
@@ -15,13 +14,12 @@ function App() {
   const [models, setModels] = useState([]);
   const [code, setCode] = useState('// Welcome to AI Coding Nexus\n// Start typing or use the chat to generate code\n\nfunction welcome() {\n  console.log("Hello, World!");\n}');
   const [language, setLanguage] = useState('javascript');
-  const [preview, setPreview] = useState({ html: '', type: 'empty' });
   const [isGenerating, setIsGenerating] = useState(false);
   const [chatHistory, setChatHistory] = useState([]);
   const [layout, setLayout] = useState('split');
   
   // Multi-Agent State (Always Enabled)
-  const [multiAgentMode, setMultiAgentMode] = useState(true);
+  const [multiAgentMode] = useState(true);
   const [agents, setAgents] = useState([]);
   const [agentMetrics, setAgentMetrics] = useState(null);
   const [activeAgents, setActiveAgents] = useState([]);
