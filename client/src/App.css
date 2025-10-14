@@ -3,8 +3,42 @@
 @tailwind utilities;
 
 /* ============================================
-   COMPONENT LIBRARY - UNIFIED DESIGN SYSTEM
+   RAJ AI CODING TOOL - ENTERPRISE DESIGN SYSTEM
+   Professional • Modern • Accessible
+   Primary: Orange (#f97316) | Text: Black (#000) | Background: White (#fff)
    ============================================ */
+
+/* ===== GLOBAL RESET & BASE STYLES ===== */
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html, body, #root {
+  @apply w-full h-full overflow-hidden;
+}
+
+body {
+  @apply bg-white text-black font-sans;
+}
+
+/* ===== SCROLLBAR STYLING ===== */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-gray-100;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-gray-300 rounded-full hover:bg-gray-400;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-gray-400;
+}
 
 /* ===== BUTTONS ===== */
 @layer components {
@@ -286,6 +320,22 @@
   @apply inline-block w-5 h-5 border-2 border-current border-t-transparent rounded-full animate-spin;
 }
 
+.loading-dots {
+  @apply inline-flex items-center gap-1;
+}
+
+.loading-dots span {
+  @apply w-2 h-2 bg-current rounded-full animate-bounce;
+}
+
+.loading-dots span:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+.loading-dots span:nth-child(3) {
+  animation-delay: 0.2s;
+}
+
 /* ===== STATUS INDICATORS ===== */
 .status-dot {
   @apply w-2 h-2 rounded-full;
@@ -301,4 +351,171 @@
 
 .status-offline {
   @apply status-dot bg-gray-400;
+}
+
+/* ===== GRADIENT BACKGROUNDS ===== */
+.gradient-orange {
+  background: linear-gradient(135deg, #f97316 0%, #fb923c 100%);
+}
+
+.gradient-orange-subtle {
+  background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
+}
+
+/* ===== SHADOWS ===== */
+.shadow-orange {
+  box-shadow: 0 4px 14px rgba(249, 115, 22, 0.15);
+}
+
+.shadow-orange-lg {
+  box-shadow: 0 10px 40px rgba(249, 115, 22, 0.2);
+}
+
+/* ===== FOCUS STATES ===== */
+.focus-ring-orange {
+  @apply focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2;
+}
+
+/* ===== HOVER EFFECTS ===== */
+.hover-lift {
+  @apply transition-transform duration-200 hover:-translate-y-0.5;
+}
+
+.hover-glow {
+  @apply transition-shadow duration-200;
+}
+
+.hover-glow:hover {
+  box-shadow: 0 4px 14px rgba(249, 115, 22, 0.15);
+}
+
+/* ===== ENTERPRISE FEATURES ===== */
+.code-block {
+  @apply bg-gray-900 text-green-400 p-4 rounded-lg font-mono text-sm overflow-x-auto;
+}
+
+.code-block-header {
+  @apply flex items-center justify-between px-4 py-2 bg-gray-800 border-b border-gray-700 rounded-t-lg;
+}
+
+.tooltip {
+  @apply absolute z-50 px-2 py-1 text-xs text-white bg-gray-900 rounded-md shadow-lg pointer-events-none;
+}
+
+/* ===== MULTI-AGENT SPECIFIC ===== */
+.agent-badge {
+  @apply inline-flex items-center gap-1.5 px-3 py-1.5 bg-white border-2 border-orange-200 rounded-lg text-sm font-semibold text-gray-700 transition-all hover:border-orange-400 hover:shadow-md;
+}
+
+.agent-badge-active {
+  @apply agent-badge border-orange-500 bg-orange-50 text-orange-900;
+}
+
+.agent-status-active {
+  @apply inline-flex items-center gap-1.5 px-2 py-1 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-md text-xs font-bold shadow-sm;
+}
+
+.agent-status-pending {
+  @apply inline-flex items-center gap-1.5 px-2 py-1 bg-yellow-100 text-yellow-800 rounded-md text-xs font-bold;
+}
+
+.agent-status-completed {
+  @apply inline-flex items-center gap-1.5 px-2 py-1 bg-green-100 text-green-800 rounded-md text-xs font-bold;
+}
+
+.collaboration-line {
+  @apply w-0.5 h-8 bg-gradient-to-b from-orange-300 to-orange-500 mx-auto;
+}
+
+/* ===== ACCESSIBILITY ===== */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Skip to content link */
+.skip-link {
+  @apply absolute top-0 left-0 px-4 py-2 bg-orange-500 text-white font-semibold rounded-br-lg transform -translate-y-full focus:translate-y-0 transition-transform z-50;
+}
+
+/* ===== PRINT STYLES ===== */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  body {
+    background: white !important;
+    color: black !important;
+  }
+}
+
+/* ===== PERFORMANCE OPTIMIZATIONS ===== */
+.gpu-accelerated {
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+/* ===== HIGH CONTRAST MODE ===== */
+@media (prefers-contrast: high) {
+  .card {
+    @apply border-2;
+  }
+  
+  .btn-primary {
+    @apply border-2 border-orange-700;
+  }
+}
+
+/* ===== REDUCED MOTION ===== */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ===== DARK MODE SUPPORT (Future) ===== */
+@media (prefers-color-scheme: dark) {
+  /* Reserved for future dark mode implementation */
+}
+
+/* ===== ENTERPRISE POLISH ===== */
+.professional-container {
+  @apply max-w-7xl mx-auto;
+}
+
+.glass-effect {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.text-gradient-orange {
+  background: linear-gradient(135deg, #f97316 0%, #fb923c 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ===== CODE EDITOR ENHANCEMENTS ===== */
+.monaco-editor .view-lines {
+  font-family: 'Fira Code', 'Consolas', 'Monaco', monospace !important;
+}
+
+.monaco-editor .cursors-layer .cursor {
+  background-color: #f97316 !important;
+  border-color: #f97316 !important;
+}
+
+.monaco-editor .selected-text {
+  background-color: rgba(249, 115, 22, 0.1) !important;
 }

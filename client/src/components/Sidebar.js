@@ -13,7 +13,7 @@ import {
   ChevronDown
 } from 'lucide-react';
 
-const Sidebar = ({ onGenerate, onDebug, isGenerating }) => {
+const Sidebar = ({ onGenerate, onDebug, isGenerating, multiAgentMode }) => {
   const [expandedSections, setExpandedSections] = useState(['generate', 'tools']);
 
   const toggleSection = (section) => {
@@ -102,7 +102,13 @@ const Sidebar = ({ onGenerate, onDebug, isGenerating }) => {
   const handleQuickAction = (action) => {
     const userInput = prompt(`${action.prompt}:`);
     if (userInput) {
-      onGenerate(`${action.prompt} ${userInput}`, action.type);
+      const options = multiAgentMode ? {
+        includeTests: true,
+        includeSecurity: true,
+        includePerformance: false,
+        includeDocs: true
+      } : {};
+      onGenerate(`${action.prompt} ${userInput}`, action.type, options);
     }
   };
 
@@ -131,7 +137,12 @@ const Sidebar = ({ onGenerate, onDebug, isGenerating }) => {
           <div className="icon-primary w-8 h-8">
             <Sparkles className="w-4 h-4" />
           </div>
-          <h2 className="heading-4 text-base">AI Tools</h2>
+          <div>
+            <h2 className="heading-4 text-base">AI Tools</h2>
+            {multiAgentMode && (
+              <p className="text-xs text-orange-600 font-semibold">Multi-Agent Active</p>
+            )}
+          </div>
         </div>
       </div>
 

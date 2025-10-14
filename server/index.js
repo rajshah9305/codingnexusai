@@ -7,6 +7,7 @@ const http = require('http');
 const BedrockService = require('./services/bedrock');
 const CrewAIService = require('./services/crewai');
 const CodeService = require('./services/code');
+const MultiAgentOrchestrator = require('./services/multiagent');
 
 require('dotenv').config();
 
@@ -30,6 +31,7 @@ app.use('/api/', limiter);
 const bedrockService = new BedrockService();
 const crewaiService = new CrewAIService();
 const codeService = new CodeService();
+const multiAgentOrchestrator = new MultiAgentOrchestrator();
 
 // WebSocket for real-time code preview
 wss.on('connection', (ws) => {
@@ -122,7 +124,43 @@ app.post('/api/integrate', async (req, res) => {
   }
 });
 
+// Multi-Agent Orchestration Routes
+app.post('/api/multiagent/orchestrate', async (req, res) => {
+  try {
+    const { prompt, options } = req.body;
+    console.log(`[API] Multi-agent orchestration request: ${prompt?.substring(0, 50)}...`);
+    
+    const result = await multiAgentOrchestrator.orchestrate(prompt, options);
+    
+    console.log('[API] Multi-agent orchestration completed');
+    res.json(result);
+  } catch (error) {
+    console.error('[API] Multi-agent orchestration error:', error);
+    res.status(500).json({ error: error.message, details: error.stack });
+  }
+});
+
+app.get('/api/multiagent/agents', async (req, res) => {
+  try {
+    const agents = multiAgentOrchestrator.getAgentsInfo();
+    res.json(agents);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.get('/api/multiagent/metrics', async (req, res) => {
+  try {
+    const metrics = multiAgentOrchestrator.getAgentMetrics();
+    res.json(metrics);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 const PORT = process.env.PORT || 3001;
 server.listen(PORT, () => {
   console.log(`🚀 AI Coding Nexus Server running on port ${PORT}`);
+  console.log(`📦 Multi-Agent Orchestration: ENABLED`);
+  console.log(`🤖 Available Agents: ${multiAgentOrchestrator.getAgentsInfo().length}`);
 });

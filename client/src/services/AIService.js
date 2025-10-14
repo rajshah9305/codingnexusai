@@ -147,4 +147,35 @@ export class AIService {
       this.ws = null;
     }
   }
+
+  // Multi-Agent Orchestration Methods
+  async orchestrateMultiAgent(prompt, options = {}) {
+    try {
+      const response = await axios.post(`${this.baseURL}/multiagent/orchestrate`, {
+        prompt,
+        options
+      });
+      return response.data;
+    } catch (error) {
+      throw new Error(`Multi-agent orchestration failed: ${error.message}`);
+    }
+  }
+
+  async getAgents() {
+    try {
+      const response = await axios.get(`${this.baseURL}/multiagent/agents`);
+      return response.data;
+    } catch (error) {
+      throw new Error(`Failed to fetch agents: ${error.message}`);
+    }
+  }
+
+  async getAgentMetrics() {
+    try {
+      const response = await axios.get(`${this.baseURL}/multiagent/metrics`);
+      return response.data;
+    } catch (error) {
+      throw new Error(`Failed to fetch metrics: ${error.message}`);
+    }
+  }
 }

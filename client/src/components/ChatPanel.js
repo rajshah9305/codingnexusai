@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Send, Copy, Download, Sparkles } from 'lucide-react';
+import { Send, Copy, Download, Sparkles, Users, CheckCircle, Shield, TestTube, FileText, Zap } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 
-const ChatPanel = ({ history, onSendMessage, isGenerating }) => {
+const ChatPanel = ({ history, onSendMessage, isGenerating, multiAgentMode }) => {
   const [message, setMessage] = useState('');
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
@@ -70,12 +70,56 @@ const ChatPanel = ({ history, onSendMessage, isGenerating }) => {
         <div key={index} className="mb-4 animate-slide-up">
           <div className="card">
             <div className="card-body py-4 px-4">
-              <div className="flex items-center gap-2 mb-3">
-                <div className="icon-primary w-7 h-7">
-                  <Sparkles className="w-3.5 h-3.5" />
+              <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center gap-2">
+                  <div className={`icon-primary w-7 h-7 ${msg.multiAgent ? 'bg-gradient-to-br from-orange-500 to-orange-600' : ''}`}>
+                    {msg.multiAgent ? <Users className="w-3.5 h-3.5" /> : <Sparkles className="w-3.5 h-3.5" />}
+                  </div>
+                  <span className="label text-sm">
+                    {msg.multiAgent ? 'Multi-Agent System' : 'AI Assistant'}
+                  </span>
                 </div>
-                <span className="label text-sm">AI Assistant</span>
+                {msg.multiAgent && (
+                  <div className="badge-primary flex items-center gap-1">
+                    <CheckCircle className="w-3 h-3" />
+                    <span>Collaborative</span>
+                  </div>
+                )}
               </div>
+              
+              {/* Multi-Agent Contributors */}
+              {msg.multiAgent && msg.data?.agentContributions && (
+                <div className="mb-3 p-3 bg-gradient-to-r from-orange-50 to-amber-50 rounded-lg border border-orange-200">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Users className="w-4 h-4 text-orange-600" />
+                    <span className="text-xs font-bold text-orange-900 uppercase">
+                      {msg.data.agentContributions.length} Agents Contributed
+                    </span>
+                  </div>
+                  <div className="flex flex-wrap gap-1.5">
+                    {msg.data.agentContributions.map((agent, idx) => (
+                      <span key={idx} className="inline-flex items-center gap-1 px-2 py-1 bg-white rounded-md text-xs font-semibold text-gray-700 border border-orange-200">
+                        {agent === 'testingAgent' && <TestTube className="w-3 h-3 text-orange-600" />}
+                        {agent === 'securityAgent' && <Shield className="w-3 h-3 text-orange-600" />}
+                        {agent === 'documentationAgent' && <FileText className="w-3 h-3 text-orange-600" />}
+                        {agent === 'performanceAgent' && <Zap className="w-3 h-3 text-orange-600" />}
+                        {agent.replace(/([A-Z])/g, ' $1').trim()}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+              
+              {/* Quality Report */}
+              {msg.data?.qualityReport && (
+                <div className="mb-3 p-3 bg-green-50 rounded-lg border border-green-200">
+                  <div className="flex items-center gap-2 mb-2">
+                    <CheckCircle className="w-4 h-4 text-green-600" />
+                    <span className="text-xs font-bold text-green-900 uppercase">Quality Validated</span>
+                  </div>
+                  <p className="text-xs text-green-800 leading-relaxed">{msg.data.qualityReport.substring(0, 200)}...</p>
+                </div>
+              )}
               
               <div className="body-lg mb-3">{msg.content}</div>
 
@@ -184,11 +228,23 @@ const ChatPanel = ({ history, onSendMessage, isGenerating }) => {
     <div className="panel h-full">
       {/* Chat Header */}
       <div className="panel-header">
-        <div className="flex items-center gap-2">
-          <div className="icon-primary w-8 h-8">
-            <Sparkles className="w-4 h-4" />
+        <div className="flex items-center justify-between w-full">
+          <div className="flex items-center gap-2">
+            <div className={`icon-primary w-8 h-8 ${multiAgentMode ? 'bg-gradient-to-br from-orange-500 to-orange-600' : ''}`}>
+              {multiAgentMode ? <Users className="w-4 h-4" /> : <Sparkles className="w-4 h-4" />}
+            </div>
+            <div>
+              <h3 className="heading-4 text-base">AI Chat</h3>
+              {multiAgentMode && (
+                <p className="text-xs text-orange-600 font-semibold">Multi-Agent Mode Active</p>
+              )}
+            </div>
           </div>
-          <h3 className="heading-4 text-base">AI Chat</h3>
+          {history.length > 0 && (
+            <div className="flex items-center gap-2">
+              <span className="caption">{history.length} messages</span>
+            </div>
+          )}
         </div>
       </div>
 
@@ -225,18 +281,33 @@ const ChatPanel = ({ history, onSendMessage, isGenerating }) => {
             {history.map(renderMessage)}
             {isGenerating && (
               <div className="mb-4 animate-slide-up">
-                <div className="card bg-orange-50 border-orange-200">
+                <div className="card bg-gradient-to-r from-orange-50 to-amber-50 border-orange-200 shadow-md">
                   <div className="card-body py-3 px-4">
                     <div className="flex items-center gap-2 mb-2">
-                      <div className="icon-primary w-7 h-7">
-                        <Sparkles className="w-3.5 h-3.5" />
+                      <div className={`icon-primary w-7 h-7 ${multiAgentMode ? 'bg-gradient-to-br from-orange-500 to-orange-600' : ''}`}>
+                        {multiAgentMode ? <Users className="w-3.5 h-3.5 animate-pulse" /> : <Sparkles className="w-3.5 h-3.5 animate-pulse" />}
                       </div>
-                      <span className="label text-sm">AI Assistant</span>
+                      <span className="label text-sm">
+                        {multiAgentMode ? 'Multi-Agent System' : 'AI Assistant'}
+                      </span>
                     </div>
                     <div className="flex items-center gap-2">
                       <div className="loading-spinner text-orange-500"></div>
-                      <span className="body-sm text-gray-700">Thinking and generating...</span>
+                      <span className="body-sm text-gray-700 font-semibold">
+                        {multiAgentMode ? 'Agents collaborating on your request...' : 'Thinking and generating...'}
+                      </span>
                     </div>
+                    {multiAgentMode && (
+                      <div className="mt-3 pt-3 border-t border-orange-200">
+                        <div className="flex flex-wrap gap-1.5">
+                          {['Supervisor', 'Code Gen', 'Testing', 'Security', 'Docs'].map((agent, idx) => (
+                            <span key={idx} className="text-xs px-2 py-1 bg-white rounded-md text-gray-600 border border-orange-100 animate-pulse" style={{ animationDelay: `${idx * 0.2}s` }}>
+                              {agent}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>

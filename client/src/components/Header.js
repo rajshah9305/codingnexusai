@@ -1,7 +1,7 @@
 import React from 'react';
-import { ChevronDown, Layout, Code, Eye, Zap } from 'lucide-react';
+import { ChevronDown, Layout, Code, Eye, Zap, Users } from 'lucide-react';
 
-const Header = ({ selectedModel, models, onModelChange, layout, onLayoutChange }) => {
+const Header = ({ selectedModel, models, onModelChange, layout, onLayoutChange, multiAgentMode, onMultiAgentToggle }) => {
   return (
     <header className="flex items-center justify-between px-6 py-3.5 bg-white border-b border-gray-200 flex-shrink-0">
       {/* Logo & Brand */}
@@ -72,6 +72,20 @@ const Header = ({ selectedModel, models, onModelChange, layout, onLayoutChange }
             <Eye className="w-4 h-4" />
           </button>
         </div>
+
+        {/* Multi-Agent Toggle */}
+        <button
+          onClick={onMultiAgentToggle}
+          className={`flex items-center gap-2 px-3 py-2 rounded-lg border-2 transition-all font-semibold text-sm ${
+            multiAgentMode
+              ? 'bg-orange-500 text-white border-orange-500 shadow-md'
+              : 'bg-white text-gray-700 border-gray-200 hover:border-orange-300'
+          }`}
+          title={multiAgentMode ? 'Multi-Agent Mode Active' : 'Single Agent Mode'}
+        >
+          <Users className="w-4 h-4" />
+          <span>{multiAgentMode ? 'Multi-Agent' : 'Single'}</span>
+        </button>
 
         {/* Status Indicator */}
         <div className="flex items-center gap-2 px-3 py-2 bg-gray-50 rounded-lg border border-gray-200">

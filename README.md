@@ -1,21 +1,32 @@
-# 🚀 RAJ AI Coding Tool
+# 🚀 RAJ AI Coding Tool - Professional Edition
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Node.js](https://img.shields.io/badge/Node.js-18+-green.svg)](https://nodejs.org/)
 [![React](https://img.shields.io/badge/React-18+-blue.svg)](https://reactjs.org/)
 [![AWS Bedrock](https://img.shields.io/badge/AWS-Bedrock-orange.svg)](https://aws.amazon.com/bedrock/)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/YOUR_USERNAME/raj-ai-coding-tool)
+[![Production Ready](https://img.shields.io/badge/Status-Production%20Ready-success.svg)]()
 
-An **elite AI-powered coding assistant** built with AWS Bedrock (Claude 3.7 Sonnet), featuring real-time code generation, debugging, and a beautiful modern interface.
+An **elite AI-powered coding assistant** built with AWS Bedrock (Claude 3.7 Sonnet), featuring **multi-agent orchestration**, real-time code generation, comprehensive testing, security reviews, and a beautiful modern interface.
 
 ![RAJ AI Coding Tool](https://via.placeholder.com/1200x600/ffffff/f97316?text=RAJ+AI+Coding+Tool)
 
 ## ✨ Features
+
+### 🤖 Multi-Agent Orchestration (NEW!)
+- **8 Specialized Agents**: Supervisor, Code Generator, Testing, Security, Performance, Documentation, Architecture, and Debug agents working together
+- **Collaborative Intelligence**: Agents share context and build upon each other's work
+- **Comprehensive Solutions**: Get code + tests + security review + documentation in one go
+- **Quality Assurance**: Supervisor agent performs final validation
+- **Real-Time Visualization**: Watch agents collaborate through interactive dashboard
+- **📚 [Complete Multi-Agent Guide](./MULTI_AGENT_GUIDE.md)**
 
 ### 🤖 AI-Powered Development
 - **Code Generation**: Generate React components, API endpoints, database schemas, and full-stack applications
 - **Intelligent Debugging**: AI-powered bug detection and automatic fixes
 - **Code Explanation**: Get detailed explanations of complex code
 - **Optimization**: Improve code performance and readability with AI suggestions
+- **Single & Multi-Agent Modes**: Toggle between quick single-agent or comprehensive multi-agent generation
 
 ### 🎨 Elite Design System
 - **Minimal & Clean**: White background, black text, strategic orange accents
@@ -60,71 +71,73 @@ An **elite AI-powered coding assistant** built with AWS Bedrock (Claude 3.7 Sonn
 
 ## 🚀 Quick Start
 
-### Prerequisites
+### ⚡ Deploy to Vercel (Recommended)
+
+**One-Click Deploy:**
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/YOUR_USERNAME/raj-ai-coding-tool)
+
+1. Click button above
+2. Add environment variables (AWS credentials)
+3. Deploy! ✅
+
+**Full deployment guide**: [DEPLOYMENT.md](./DEPLOYMENT.md)
+
+---
+
+### 💻 Local Development
+
+#### Prerequisites
 
 - **Node.js** 18+ ([Download](https://nodejs.org/))
 - **npm** or **yarn**
 - **AWS Account** with Bedrock access
-- **AWS CLI** configured with credentials
+- **Git**
 
-### Installation
+#### Installation
 
-1. **Clone the repository**
 ```bash
-git clone https://github.com/rajshah9305/codingnexusai.git
-cd codingnexusai
-```
+# 1. Clone the repository
+git clone https://github.com/YOUR_USERNAME/raj-ai-coding-tool.git
+cd raj-ai-coding-tool
 
-2. **Install dependencies**
-```bash
-# Install root dependencies
+# 2. Install all dependencies
 npm install
+cd client && npm install && cd ..
+cd server && npm install && cd ..
 
-# Install client dependencies
-cd client && npm install
+# 3. Configure environment variables
+cp .env.example server/.env
+cp client/.env.example client/.env
 
-# Install server dependencies
-cd ../server && npm install
-```
+# Edit server/.env with your AWS credentials
+# Edit client/.env if needed (defaults work for local dev)
 
-3. **Configure AWS credentials**
-
-Create a `.env` file in the `server` directory:
-
-```env
-AWS_REGION=us-east-1
-AWS_ACCESS_KEY_ID=your_access_key
-AWS_SECRET_ACCESS_KEY=your_secret_key
-PORT=3001
-```
-
-4. **Start the servers**
-
-```bash
-# From project root
+# 4. Start development servers
 npm run dev
 ```
 
-This will start:
+**Servers will start:**
 - **Frontend**: http://localhost:3000
 - **Backend**: http://localhost:3001
 
-### Alternative: Start Separately
+#### AWS Bedrock Setup
 
-```bash
-# Terminal 1 - Backend
-cd server
-npm start
+1. Go to [AWS Bedrock Console](https://console.aws.amazon.com/bedrock/)
+2. Navigate to "Model access"
+3. Enable these models:
+   - Claude 3.7 Sonnet
+   - Claude 3.5 Sonnet V2
+   - Claude 3.5 Haiku
+4. Copy your AWS credentials to `server/.env`
 
-# Terminal 2 - Frontend
-cd client
-npm start
-```
+**Detailed setup**: [DEPLOYMENT.md](./DEPLOYMENT.md)
 
 ## 📖 Usage
 
 ### Generate Code with AI
 
+#### Single Agent Mode (Fast)
 1. Open the application at `http://localhost:3000`
 2. Type your request in the chat panel:
    - "Create a React login form with validation"
@@ -132,6 +145,25 @@ npm start
    - "Generate a responsive navbar component"
 3. The AI will generate code and display it in the editor
 4. Preview your code in real-time in the preview panel
+
+#### Multi-Agent Mode (Comprehensive) 🆕
+1. Click the **"Multi-Agent"** toggle in the header (turns orange when active)
+2. Make your request - agents automatically collaborate to deliver:
+   - ✅ Production-ready code
+   - ✅ Comprehensive test suite
+   - ✅ Security review and fixes
+   - ✅ Performance optimizations (optional)
+   - ✅ Complete documentation
+3. Watch the collaboration in real-time:
+   - **Agent Dashboard**: See all 8 agents and their status
+   - **Collaboration Timeline**: Track task execution flow
+   - **Quality Report**: Review supervisor's final assessment
+
+**Example Multi-Agent Request**:
+```
+Create a user authentication system with JWT tokens
+```
+**Result**: Complete auth system with code, tests, security hardening, and docs!
 
 ### Quick Actions
 
@@ -207,12 +239,16 @@ Deploy the `client/build` directory to any static hosting service (Netlify, Verc
 - **Lucide React** - Beautiful icon library
 - **React Hot Toast** - Elegant notifications
 - **WebSocket** - Real-time updates
+- **Agent Dashboard** - Multi-agent visualization (NEW!)
+- **Collaboration Timeline** - Real-time agent tracking (NEW!)
 
 ### Backend
 - **Express.js** - Web framework
-- **AWS Bedrock** - AI model access
-- **Claude 3.7 Sonnet** - Latest Claude model
-- **CrewAI** - Multi-agent orchestration
+- **AWS Bedrock** - AI model access (Claude 3.7 Sonnet, Nova, Haiku)
+- **Multi-Agent Orchestrator** - 8 specialized AI agents (NEW!)
+- **Agent Supervisor** - Task routing and quality control (NEW!)
+- **Knowledge Bases** - Best practices repository (NEW!)
+- **CrewAI** - Multi-agent framework
 - **WebSocket** - Real-time communication
 - **Jest** - Testing framework
 
@@ -220,26 +256,36 @@ Deploy the `client/build` directory to any static hosting service (Netlify, Verc
 
 ```
 codingnexusai/
-├── client/                 # Frontend React application
+├── client/                      # Frontend React application
 │   ├── src/
-│   │   ├── components/    # React components
-│   │   ├── services/      # API services
-│   │   ├── App.js         # Main app component
-│   │   ├── App.css        # Component library
-│   │   └── index.css      # Design system foundation
-│   ├── public/            # Static assets
+│   │   ├── components/         # React components
+│   │   │   ├── AgentDashboard.js      # Multi-agent dashboard (NEW!)
+│   │   │   ├── AgentCollaboration.js  # Collaboration view (NEW!)
+│   │   │   ├── ChatPanel.js
+│   │   │   ├── CodeEditor.js
+│   │   │   ├── Header.js
+│   │   │   ├── PreviewPanel.js
+│   │   │   └── Sidebar.js
+│   │   ├── services/           # API services
+│   │   │   └── AIService.js    # Enhanced with multi-agent (NEW!)
+│   │   ├── App.js              # Main app component
+│   │   ├── App.css             # Component library
+│   │   └── index.css           # Design system foundation
+│   ├── public/                 # Static assets
 │   └── package.json
-├── server/                # Backend Express server
-│   ├── services/          # AI and code services
-│   │   ├── bedrock.js    # AWS Bedrock integration
-│   │   ├── code.js       # Code generation logic
-│   │   └── crewai.js     # CrewAI integration
-│   ├── __tests__/        # Test files
-│   ├── index.js          # Server entry point
+├── server/                     # Backend Express server
+│   ├── services/               # AI and code services
+│   │   ├── multiagent.js      # Multi-agent orchestrator (NEW!)
+│   │   ├── bedrock.js         # AWS Bedrock integration
+│   │   ├── code.js            # Code generation logic
+│   │   └── crewai.js          # CrewAI integration
+│   ├── __tests__/             # Test files
+│   ├── index.js               # Server entry point (enhanced)
 │   └── package.json
-├── DESIGN_SYSTEM.md      # Complete design documentation
-├── TESTING_REPORT.md     # Test coverage report
-└── README.md             # This file
+├── DESIGN_SYSTEM.md           # Complete design documentation
+├── TESTING_REPORT.md          # Test coverage report
+├── MULTI_AGENT_GUIDE.md       # Multi-agent orchestration guide (NEW!)
+└── README.md                  # This file
 ```
 
 ## 🤝 Contributing
@@ -258,7 +304,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🙏 Acknowledgments
 
-- **AWS Bedrock** - For providing access to Claude 3.7 Sonnet
+- **AWS Bedrock** - For providing access to Claude 3.7 Sonnet and multi-agent capabilities
+- **AWS Solutions Library** - For [Multi-Agent Orchestration Guidance](https://github.com/aws-solutions-library-samples/guidance-for-multi-agent-orchestration-on-aws)
 - **Anthropic** - For creating Claude AI
 - **Monaco Editor** - For the excellent code editor
 - **Tailwind CSS** - For the utility-first CSS framework
