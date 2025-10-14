@@ -17,7 +17,12 @@ const wss = new WebSocket.Server({ server });
 
 // Security middleware
 app.use(helmet());
-app.use(cors());
+app.use(cors({
+  origin: process.env.NODE_ENV === 'production' 
+    ? ['https://codingnexusai.vercel.app', 'https://codingnexusai-k2ok9va9c-rajshah9305s-projects.vercel.app']
+    : '*',
+  credentials: true
+}));
 app.use(express.json({ limit: '10mb' }));
 
 // Rate limiting
@@ -159,8 +164,15 @@ app.get('/api/multiagent/metrics', async (req, res) => {
 });
 
 const PORT = process.env.PORT || 3001;
-server.listen(PORT, () => {
-  console.log(`🚀 AI Coding Nexus Server running on port ${PORT}`);
-  console.log(`📦 Multi-Agent Orchestration: ENABLED`);
-  console.log(`🤖 Available Agents: ${multiAgentOrchestrator.getAgentsInfo().length}`);
-});
+
+// Only start server in development (not on Vercel)
+if (process.env.NODE_ENV !== 'production') {
+  server.listen(PORT, () => {
+    console.log(`🚀 AI Coding Nexus Server running on port ${PORT}`);
+    console.log(`📦 Multi-Agent Orchestration: ENABLED`);
+    console.log(`🤖 Available Agents: ${multiAgentOrchestrator.getAgentsInfo().length}`);
+  });
+}
+
+// Export for Vercel serverless functions
+module.exports = app;
