@@ -15,7 +15,7 @@ An **AI-powered coding assistant** built with AWS Bedrock (Claude 3.7 Sonnet), f
 - **Comprehensive Solutions**: Get code + tests + security review + documentation in one go
 - **Quality Assurance**: Supervisor agent performs final validation
 - **Real-Time Visualization**: Watch agents collaborate through interactive dashboard
-- **📚 [Complete Multi-Agent Guide](./MULTI_AGENT_GUIDE.md)**
+
 
 ### 🤖 AI-Powered Development
 - **Code Generation**: Generate React components, API endpoints, database schemas, and full-stack applications
@@ -114,8 +114,6 @@ npm run dev
    - Claude 3.5 Haiku
 4. Copy your AWS credentials to `server/.env`
 
-**Detailed setup**: See [SETUP_INSTRUCTIONS.md](./SETUP_INSTRUCTIONS.md) and [DEPLOYMENT.md](./DEPLOYMENT.md)
-
 ## 📖 Usage
 
 ### Generate Code with AI
@@ -186,7 +184,6 @@ Use the sidebar for common tasks:
 - Cards: Standard, Hover, with Header/Body/Footer
 - Badges: Primary, Secondary, Success, Error
 
-See [DESIGN_SYSTEM.md](./DESIGN_SYSTEM.md) for complete documentation.
 
 ## 🧪 Testing
 
