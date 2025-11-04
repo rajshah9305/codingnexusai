@@ -1,15 +1,11 @@
-# 🚀 RAJ AI Coding Tool - Professional Edition
+# 🚀 AI Coding Nexus - Multi-Agent Development Platform
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Node.js](https://img.shields.io/badge/Node.js-18+-green.svg)](https://nodejs.org/)
 [![React](https://img.shields.io/badge/React-18+-blue.svg)](https://reactjs.org/)
 [![AWS Bedrock](https://img.shields.io/badge/AWS-Bedrock-orange.svg)](https://aws.amazon.com/bedrock/)
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/YOUR_USERNAME/raj-ai-coding-tool)
-[![Production Ready](https://img.shields.io/badge/Status-Production%20Ready-success.svg)]()
 
-An **elite AI-powered coding assistant** built with AWS Bedrock (Claude 3.7 Sonnet), featuring **multi-agent orchestration**, real-time code generation, comprehensive testing, security reviews, and a beautiful modern interface.
-
-![RAJ AI Coding Tool](https://via.placeholder.com/1200x600/ffffff/f97316?text=RAJ+AI+Coding+Tool)
+An **AI-powered coding assistant** built with AWS Bedrock (Claude 3.7 Sonnet), featuring **multi-agent orchestration**, real-time code generation, comprehensive testing, security reviews, and a modern interface.
 
 ## ✨ Features
 
@@ -71,20 +67,6 @@ An **elite AI-powered coding assistant** built with AWS Bedrock (Claude 3.7 Sonn
 
 ## 🚀 Quick Start
 
-### ⚡ Deploy to Vercel (Recommended)
-
-**One-Click Deploy:**
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/YOUR_USERNAME/raj-ai-coding-tool)
-
-1. Click button above
-2. Add environment variables (AWS credentials)
-3. Deploy! ✅
-
-**Full deployment guide**: [DEPLOYMENT.md](./DEPLOYMENT.md)
-
----
-
 ### 💻 Local Development
 
 #### Prerequisites
@@ -98,20 +80,21 @@ An **elite AI-powered coding assistant** built with AWS Bedrock (Claude 3.7 Sonn
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/YOUR_USERNAME/raj-ai-coding-tool.git
-cd raj-ai-coding-tool
+git clone https://github.com/rajshah9305/codingnexusai.git
+cd codingnexusai
 
 # 2. Install all dependencies
 npm install
-cd client && npm install && cd ..
 cd server && npm install && cd ..
+cd client && npm install && cd ..
 
 # 3. Configure environment variables
 cp .env.example server/.env
-cp client/.env.example client/.env
 
-# Edit server/.env with your AWS credentials
-# Edit client/.env if needed (defaults work for local dev)
+# Edit server/.env with your AWS credentials:
+# AWS_REGION=us-west-2
+# AWS_ACCESS_KEY_ID=your_key
+# AWS_SECRET_ACCESS_KEY=your_secret
 
 # 4. Start development servers
 npm run dev
@@ -131,7 +114,7 @@ npm run dev
    - Claude 3.5 Haiku
 4. Copy your AWS credentials to `server/.env`
 
-**Detailed setup**: [DEPLOYMENT.md](./DEPLOYMENT.md)
+**Detailed setup**: See [SETUP_INSTRUCTIONS.md](./SETUP_INSTRUCTIONS.md) and [DEPLOYMENT.md](./DEPLOYMENT.md)
 
 ## 📖 Usage
 
@@ -312,14 +295,10 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📞 Support
 
-For support, email rajshah9305@example.com or open an issue on GitHub.
-
-## 🌟 Star History
-
-If you find this project useful, please consider giving it a ⭐!
+For support, open an issue on GitHub.
 
 ---
 
-**Built with ❤️ by Raj Shah**
+**Built by Raj Shah**
 
-[View Demo](http://localhost:3000) | [Report Bug](https://github.com/rajshah9305/codingnexusai/issues) | [Request Feature](https://github.com/rajshah9305/codingnexusai/issues)
+[Report Bug](https://github.com/rajshah9305/codingnexusai/issues) | [Request Feature](https://github.com/rajshah9305/codingnexusai/issues)

@@ -66,10 +66,10 @@ function App() {
   const connectWebSocket = () => {
     aiService.connectWebSocket((data) => {
       if (data.type === 'preview_update') {
-        setPreview(data.data);
+        // Preview updates handled by PreviewPanel component
+        console.log('Preview updated');
       } else if (data.type === 'edit_result') {
         setCode(data.data.updatedCode);
-        setPreview(data.data.preview);
       }
     });
   };
