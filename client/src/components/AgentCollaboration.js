@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { ArrowRight, CheckCircle2, Clock, Loader2, AlertCircle, Activity } from 'lucide-react';
+import React from 'react';
+import { ArrowRight, CheckCircle2, Clock, Loader2, Activity } from 'lucide-react';
 
 /**
  * Agent Collaboration Visualization Component

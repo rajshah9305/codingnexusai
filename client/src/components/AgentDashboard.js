@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Users, Activity, CheckCircle, Clock, Zap, Shield, TestTube, FileText, Cpu, Bug } from 'lucide-react';
+import React from 'react';
+import { Users, Activity, Zap, Shield, TestTube, FileText, Cpu, Bug } from 'lucide-react';
 
 /**
  * Multi-Agent Dashboard Component
