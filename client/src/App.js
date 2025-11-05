@@ -203,7 +203,7 @@ function App() {
         {/* Professional 3-Pane Layout: Chat | Editor | Tools */}
         
         {/* LEFT PANE: Chat & Agent Collaboration */}
-        <div className="w-full md:w-[380px] lg:w-[420px] flex flex-col border-r border-gray-200 bg-white overflow-hidden flex-shrink-0">
+        <div className="hidden md:flex md:w-[320px] lg:w-[360px] flex-col border-r border-gray-200 bg-white overflow-hidden flex-shrink-0">
           {/* Chat Panel - Full Height */}
           <div className="flex-1 overflow-hidden">
             <ChatPanel
@@ -214,8 +214,8 @@ function App() {
             />
           </div>
           
-          {/* Agent Collaboration - Collapsible Bottom Section */}
-          <div className="h-[280px] border-t border-gray-200 overflow-hidden">
+          {/* Agent Collaboration - Compact Bottom Section */}
+          <div className="h-[160px] border-t border-gray-200 overflow-hidden">
             <AgentCollaboration
               executionPlan={executionPlan}
               activeStep={activeStep}
@@ -237,8 +237,8 @@ function App() {
             />
           </div>
           
-          {/* Agent Dashboard - Bottom Status Bar */}
-          <div className="h-[200px] border-t border-gray-200 bg-white overflow-hidden">
+          {/* Agent Dashboard - Compact Bottom Bar */}
+          <div className="h-[120px] border-t border-gray-200 bg-white overflow-hidden">
             <AgentDashboard
               agents={agents}
               activeAgents={activeAgents}
@@ -249,7 +249,7 @@ function App() {
         </div>
         
         {/* RIGHT PANE: Tools & Actions */}
-        <div className="hidden lg:flex w-[320px] xl:w-[360px] flex-col bg-white border-l border-gray-200 overflow-hidden flex-shrink-0">
+        <div className="hidden lg:flex w-[280px] xl:w-[300px] flex-col bg-white border-l border-gray-200 overflow-hidden flex-shrink-0">
           <Sidebar 
             onGenerate={handleGenerate}
             onDebug={handleDebug}
@@ -258,7 +258,20 @@ function App() {
           />
         </div>
         
-        {/* Mobile Tools Button (Floating) */}
+        {/* Mobile Chat Button (Floating) - Bottom Left */}
+        <div className="md:hidden fixed bottom-6 left-6 z-50">
+          <button
+            onClick={() => {/* Toggle mobile chat */}}
+            className="w-14 h-14 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg hover:shadow-xl transition-all hover:scale-110 flex items-center justify-center"
+            aria-label="Open Chat"
+          >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+            </svg>
+          </button>
+        </div>
+        
+        {/* Mobile Tools Button (Floating) - Bottom Right */}
         <div className="lg:hidden fixed bottom-6 right-6 z-50">
           <Sidebar 
             onGenerate={handleGenerate}

@@ -61,19 +61,19 @@ const AgentCollaboration = ({ executionPlan, activeStep, agentResults, isExecuti
 
   return (
     <div className="h-full flex flex-col bg-white">
-      {/* Clear Header */}
-      <div className="px-6 py-4 border-b-2 border-gray-200 bg-white">
+      {/* Compact Header */}
+      <div className="px-4 py-2 border-b border-gray-200 bg-white">
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-xl font-bold text-gray-900">Agent Collaboration</h2>
-            <p className="text-base text-gray-700 mt-1 font-semibold">
-              {executionPlan.executionSequence?.length || 0} tasks in execution plan
+            <h2 className="text-sm font-semibold text-gray-900">Agent Collaboration</h2>
+            <p className="text-xs text-gray-600 mt-0.5">
+              {executionPlan.executionSequence?.length || 0} tasks
             </p>
           </div>
           {isExecuting && (
-            <div className="flex items-center gap-2 px-4 py-2 bg-orange-50 border-2 border-orange-500 rounded-lg">
-              <Loader2 className="w-5 h-5 text-orange-600 animate-spin" strokeWidth={2.5} />
-              <span className="text-base font-bold text-orange-600">Executing...</span>
+            <div className="flex items-center gap-1.5 px-3 py-1.5 bg-orange-50 border border-orange-400 rounded-lg">
+              <Loader2 className="w-4 h-4 text-orange-600 animate-spin" strokeWidth={2} />
+              <span className="text-sm font-medium text-orange-600">Executing</span>
             </div>
           )}
         </div>

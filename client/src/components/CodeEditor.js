@@ -125,37 +125,31 @@ const CodeEditor = ({ code, language, onChange, onLanguageChange }) => {
 
   return (
     <div className={`panel h-full ${isFullscreen ? 'fixed inset-0 z-50 bg-white' : ''}`}>
-      {/* Clear Editor Header */}
-      <div className="px-6 py-4 border-b-2 border-gray-200 bg-white">
+      {/* Compact Editor Header */}
+      <div className="px-4 py-2 border-b border-gray-200 bg-white">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            {/* Clear Icon */}
-            <div className="w-11 h-11 bg-gradient-to-br from-orange-500 to-orange-600 rounded-lg flex items-center justify-center shadow-md">
-              <Code className="w-6 h-6 text-white" strokeWidth={2.5} />
+          <div className="flex items-center gap-2">
+            {/* Icon */}
+            <div className="w-8 h-8 bg-gradient-to-br from-orange-500 to-orange-600 rounded-lg flex items-center justify-center">
+              <Code className="w-4 h-4 text-white" strokeWidth={2} />
             </div>
             
-            {/* Title & Stats - High Contrast */}
+            {/* Title & Stats */}
             <div>
-              <h3 className="text-xl font-bold text-gray-900">Code Editor</h3>
-              <div className="flex items-center gap-3 text-sm text-gray-700 font-semibold mt-1">
-                <span className="flex items-center gap-1.5">
-                  <div className="w-1.5 h-1.5 bg-gray-600 rounded-full"></div>
-                  {getLineCount()} Lines
-                </span>
+              <h3 className="text-base font-semibold text-gray-900">Code Editor</h3>
+              <div className="flex items-center gap-2 text-xs text-gray-600 font-medium">
+                <span>{getLineCount()} lines</span>
                 <span className="text-gray-400">•</span>
-                <span className="flex items-center gap-1.5">
-                  <div className="w-1.5 h-1.5 bg-gray-600 rounded-full"></div>
-                  {code.length} Characters
-                </span>
+                <span>{code.length} chars</span>
               </div>
             </div>
             
-            {/* Language Selector - Clear */}
-            <div className="relative ml-4">
+            {/* Language Selector - Compact */}
+            <div className="relative ml-3">
               <select
                 value={language}
                 onChange={(e) => onLanguageChange(e.target.value)}
-                className="appearance-none bg-white text-gray-900 border-2 border-gray-300 rounded-lg px-4 py-2.5 pr-10 text-sm font-bold min-w-[140px] hover:border-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all cursor-pointer shadow-sm"
+                className="appearance-none bg-white text-gray-900 border border-gray-300 rounded-lg px-3 py-1.5 pr-8 text-sm font-medium min-w-[120px] hover:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500 transition-all cursor-pointer"
               >
                 {languages.map((lang) => (
                   <option key={lang.id} value={lang.id}>
@@ -163,55 +157,36 @@ const CodeEditor = ({ code, language, onChange, onLanguageChange }) => {
                   </option>
                 ))}
               </select>
-              <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-600 pointer-events-none" />
+              <ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-500 pointer-events-none" />
             </div>
           </div>
 
-          {/* Action Buttons - Clear & Visible */}
-          <div className="flex items-center gap-2">
+          {/* Action Buttons - Compact */}
+          <div className="flex items-center gap-1.5">
             <button
               onClick={copyCode}
-              className="px-4 py-2.5 rounded-lg bg-white hover:bg-gray-50 text-gray-900 hover:text-orange-600 border-2 border-gray-300 hover:border-orange-500 transition-all flex items-center gap-2 text-sm font-bold shadow-sm"
+              className="px-3 py-1.5 rounded-lg bg-white hover:bg-gray-50 text-gray-700 hover:text-orange-600 border border-gray-300 hover:border-orange-500 transition-all flex items-center gap-1.5 text-sm font-medium"
               title="Copy Code"
             >
-              <Copy className="w-4 h-4" strokeWidth={2.5} />
+              <Copy className="w-3.5 h-3.5" strokeWidth={2} />
               <span className="hidden md:inline">Copy</span>
             </button>
             <button
               onClick={downloadCode}
-              className="px-4 py-2.5 rounded-lg bg-white hover:bg-gray-50 text-gray-900 hover:text-orange-600 border-2 border-gray-300 hover:border-orange-500 transition-all flex items-center gap-2 text-sm font-bold shadow-sm"
+              className="px-3 py-1.5 rounded-lg bg-white hover:bg-gray-50 text-gray-700 hover:text-orange-600 border border-gray-300 hover:border-orange-500 transition-all flex items-center gap-1.5 text-sm font-medium"
               title="Download Code"
             >
-              <Download className="w-4 h-4" strokeWidth={2.5} />
+              <Download className="w-3.5 h-3.5" strokeWidth={2} />
               <span className="hidden md:inline">Download</span>
             </button>
             <button
               onClick={toggleFullscreen}
-              className="px-4 py-2.5 rounded-lg bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white transition-all flex items-center gap-2 text-sm font-bold shadow-md hover:shadow-lg"
+              className="px-3 py-1.5 rounded-lg bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white transition-all flex items-center gap-1.5 text-sm font-medium"
               title={isFullscreen ? 'Exit Fullscreen' : 'Fullscreen'}
             >
-              <Maximize2 className="w-4 h-4" strokeWidth={2.5} />
-              <span className="hidden lg:inline">{isFullscreen ? 'Exit' : 'Fullscreen'}</span>
+              <Maximize2 className="w-3.5 h-3.5" strokeWidth={2} />
+              <span className="hidden lg:inline">{isFullscreen ? 'Exit' : 'Full'}</span>
             </button>
-          </div>
-        </div>
-        
-        {/* Keyboard Shortcuts Bar - Clear */}
-        <div className="hidden xl:flex items-center gap-4 mt-3 pt-3 border-t-2 border-gray-200">
-          <span className="text-sm font-bold text-gray-700 uppercase tracking-wide">Shortcuts:</span>
-          <div className="flex items-center gap-4 text-sm text-gray-900 font-semibold">
-            <div className="flex items-center gap-2">
-              <kbd className="px-2.5 py-1.5 bg-gray-100 rounded-md text-xs font-bold border-2 border-gray-300">Ctrl+S</kbd>
-              <span>Save</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <kbd className="px-2.5 py-1.5 bg-gray-100 rounded-md text-xs font-bold border-2 border-gray-300">Ctrl+/</kbd>
-              <span>Comment</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <kbd className="px-2.5 py-1.5 bg-gray-100 rounded-md text-xs font-bold border-2 border-gray-300">Ctrl+F</kbd>
-              <span>Find</span>
-            </div>
           </div>
         </div>
       </div>
@@ -236,19 +211,18 @@ const CodeEditor = ({ code, language, onChange, onLanguageChange }) => {
         />
       </div>
 
-      {/* Footer Stats */}
-      <div className="px-6 py-2 border-t border-gray-200 bg-gray-50 flex items-center justify-between caption">
-        <div className="flex items-center gap-4">
-          <span className="font-semibold text-gray-700">
+      {/* Footer Stats - Compact */}
+      <div className="px-4 py-1.5 border-t border-gray-200 bg-gray-50 flex items-center justify-between text-xs">
+        <div className="flex items-center gap-3">
+          <span className="font-medium text-gray-700">
             {language.toUpperCase()}
           </span>
           <span className="text-gray-500">UTF-8</span>
-          <span className="text-gray-500">LF</span>
         </div>
-        <div className="flex items-center gap-4">
-          <span className="text-gray-600">Line {getLineCount()}</span>
+        <div className="flex items-center gap-2">
+          <span className="text-gray-600">Ln {getLineCount()}</span>
           <span className="text-gray-400">•</span>
-          <span className="text-gray-600">Ready</span>
+          <span className="text-green-600 font-medium">Ready</span>
         </div>
       </div>
     </div>
