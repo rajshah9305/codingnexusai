@@ -137,7 +137,7 @@ class MultiAgentOrchestrator {
    * Main orchestration method - coordinates multiple agents
    */
   async orchestrate(userRequest, options = {}) {
-    const model = options.model || 'claude-3.5-sonnet';
+    const model = options.model || 'claude-3.5-sonnet-v2';
     
     console.log('[Orchestrator] Starting multi-agent orchestration...');
     

@@ -10,7 +10,7 @@ import { AIService } from './services/AIService';
 import './App.css';
 
 function App() {
-  const [selectedModel, setSelectedModel] = useState('claude-3.7-sonnet');
+  const [selectedModel, setSelectedModel] = useState('claude-3.5-sonnet-v2');
   const [models, setModels] = useState([]);
   const [code, setCode] = useState('// Welcome to AI Coding Nexus\n// Start typing or use the chat to generate code\n\nfunction welcome() {\n  console.log("Hello, World!");\n}');
   const [language, setLanguage] = useState('javascript');

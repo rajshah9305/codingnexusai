@@ -17,46 +17,50 @@ class BedrockService {
     
     this.client = new BedrockRuntimeClient(config);
     
-    // Using foundation models available in us-east-1
+    // Using foundation models available in us-west-2
     this.models = {
-      // Claude models (Anthropic)
-      'claude-3.7-sonnet': 'anthropic.claude-3-7-sonnet-20250219-v1:0',
+      // Claude models (Anthropic) - Available in us-west-2
       'claude-3.5-sonnet-v2': 'anthropic.claude-3-5-sonnet-20241022-v2:0',
       'claude-3.5-sonnet': 'anthropic.claude-3-5-sonnet-20240620-v1:0',
       'claude-3.5-haiku': 'anthropic.claude-3-5-haiku-20241022-v1:0',
       'claude-3-sonnet': 'anthropic.claude-3-sonnet-20240229-v1:0',
       'claude-3-haiku': 'anthropic.claude-3-haiku-20240307-v1:0',
       'claude-3-opus': 'anthropic.claude-3-opus-20240229-v1:0',
-      'claude-sonnet-4': 'anthropic.claude-sonnet-4-20250514-v1:0',
-      'claude-opus-4': 'anthropic.claude-opus-4-20250514-v1:0',
       
-      // Llama models (Meta)
+      // Llama models (Meta) - Available in us-west-2
+      'llama3-8b-instruct': 'meta.llama3-8b-instruct-v1:0',
       'llama3-70b-instruct': 'meta.llama3-70b-instruct-v1:0',
       'llama3.1-8b-instruct': 'meta.llama3-1-8b-instruct-v1:0',
       'llama3.1-70b-instruct': 'meta.llama3-1-70b-instruct-v1:0',
       'llama3.1-405b-instruct': 'meta.llama3-1-405b-instruct-v1:0',
-      'llama3.2-1b-instruct': 'meta.llama3-2-1b-instruct-v1:0',
-      'llama3.2-3b-instruct': 'meta.llama3-2-3b-instruct-v1:0',
-      'llama3.2-11b-instruct': 'meta.llama3-2-11b-instruct-v1:0',
-      'llama3.2-90b-instruct': 'meta.llama3-2-90b-instruct-v1:0',
-      'llama3.3-70b-instruct': 'meta.llama3-3-70b-instruct-v1:0',
-      'llama4-scout-17b': 'meta.llama4-scout-17b-instruct-v1:0',
-      'llama4-maverick-17b': 'meta.llama4-maverick-17b-instruct-v1:0',
       
-      // Mistral models
+      // Mistral models - Available in us-west-2
       'mistral-7b-instruct': 'mistral.mistral-7b-instruct-v0:2',
       'mixtral-8x7b-instruct': 'mistral.mixtral-8x7b-instruct-v0:1',
       'mistral-large-2402': 'mistral.mistral-large-2402-v1:0',
       'mistral-large-2407': 'mistral.mistral-large-2407-v1:0',
-      'pixtral-large': 'mistral.pixtral-large-2502-v1:0',
       
-      // Amazon Titan models
-      'titan-text': 'amazon.titan-text-express-v1',
+      // Amazon Titan models - Available in us-west-2
+      'titan-text-express': 'amazon.titan-text-express-v1',
       'titan-text-lite': 'amazon.titan-text-lite-v1',
+      'titan-text-large': 'amazon.titan-tg1-large',
       
-      // Other providers
-      'palmyra-x4': 'writer.palmyra-x4-v1:0',
-      'palmyra-x5': 'writer.palmyra-x5-v1:0'
+      // Cohere models - Available in us-west-2
+      'command-r': 'cohere.command-r-v1:0',
+      'command-r-plus': 'cohere.command-r-plus-v1:0',
+      
+      // DeepSeek models - Available in us-west-2
+      'deepseek-v3': 'deepseek.v3-v1:0',
+      
+      // Qwen models - Available in us-west-2
+      'qwen3-coder-480b': 'qwen.qwen3-coder-480b-a35b-v1:0',
+      'qwen3-235b': 'qwen.qwen3-235b-a22b-2507-v1:0',
+      'qwen3-coder-30b': 'qwen.qwen3-coder-30b-a3b-v1:0',
+      'qwen3-32b': 'qwen.qwen3-32b-v1:0',
+      
+      // OpenAI models - Available in us-west-2
+      'gpt-oss-120b': 'openai.gpt-oss-120b-1:0',
+      'gpt-oss-20b': 'openai.gpt-oss-20b-1:0'
     };
   }
 
@@ -71,18 +75,21 @@ class BedrockService {
   getProvider(modelKey) {
     if (modelKey.includes('claude')) return 'Anthropic';
     if (modelKey.includes('llama')) return 'Meta';
-    if (modelKey.includes('mistral') || modelKey.includes('mixtral') || modelKey.includes('pixtral')) return 'Mistral AI';
+    if (modelKey.includes('mistral') || modelKey.includes('mixtral')) return 'Mistral AI';
     if (modelKey.includes('titan')) return 'Amazon';
-    if (modelKey.includes('palmyra')) return 'Writer';
-    if (modelKey.includes('pegasus')) return 'TwelveLabs';
-    if (modelKey.includes('ray')) return 'Luma AI';
-    if (modelKey.includes('jurassic')) return 'AI21';
     if (modelKey.includes('command')) return 'Cohere';
+    if (modelKey.includes('deepseek')) return 'DeepSeek';
+    if (modelKey.includes('qwen')) return 'Qwen';
+    if (modelKey.includes('gpt-oss')) return 'OpenAI';
     return 'Unknown';
   }
 
-  async generateCode(prompt, modelKey = 'claude-3.7-sonnet') {
+  async generateCode(prompt, modelKey = 'claude-3.5-sonnet-v2') {
     const modelId = this.models[modelKey];
+    
+    if (!modelId) {
+      throw new Error(`Model ${modelKey} not found. Available models: ${Object.keys(this.models).join(', ')}`);
+    }
     
     const systemPrompt = `You are an expert full-stack developer. Generate clean, production-ready code with modern best practices, proper error handling, and complete implementations.`;
 
@@ -98,6 +105,34 @@ class BedrockService {
       body = JSON.stringify({
         inputText: `${systemPrompt}\n\nUser Request: ${prompt}`,
         textGenerationConfig: { maxTokenCount: 4000, temperature: 0.7 }
+      });
+    } else if (modelKey.includes('llama') || modelKey.includes('mistral') || modelKey.includes('mixtral')) {
+      body = JSON.stringify({
+        prompt: `<s>[INST] ${systemPrompt}\n\n${prompt} [/INST]`,
+        max_gen_len: 4000,
+        temperature: 0.7,
+        top_p: 0.9
+      });
+    } else if (modelKey.includes('command')) {
+      body = JSON.stringify({
+        message: prompt,
+        preamble: systemPrompt,
+        max_tokens: 4000,
+        temperature: 0.7
+      });
+    } else if (modelKey.includes('deepseek') || modelKey.includes('qwen') || modelKey.includes('gpt-oss')) {
+      body = JSON.stringify({
+        prompt: `${systemPrompt}\n\nUser: ${prompt}\n\nAssistant:`,
+        max_tokens: 4000,
+        temperature: 0.7,
+        top_p: 0.9
+      });
+    } else {
+      // Default format for unknown models
+      body = JSON.stringify({
+        prompt: `${systemPrompt}\n\n${prompt}`,
+        max_tokens: 4000,
+        temperature: 0.7
       });
     }
 
@@ -117,6 +152,15 @@ class BedrockService {
         generatedText = responseBody.content[0].text;
       } else if (modelKey.includes('titan')) {
         generatedText = responseBody.results[0].outputText;
+      } else if (modelKey.includes('llama') || modelKey.includes('mistral') || modelKey.includes('mixtral')) {
+        generatedText = responseBody.generation;
+      } else if (modelKey.includes('command')) {
+        generatedText = responseBody.text;
+      } else if (modelKey.includes('deepseek') || modelKey.includes('qwen') || modelKey.includes('gpt-oss')) {
+        generatedText = responseBody.completion || responseBody.text || responseBody.output;
+      } else {
+        // Try common response fields
+        generatedText = responseBody.text || responseBody.completion || responseBody.output || responseBody.generation || JSON.stringify(responseBody);
       }
 
       return {
@@ -126,6 +170,7 @@ class BedrockService {
         model: modelKey
       };
     } catch (error) {
+      console.error(`Bedrock API error for model ${modelKey}:`, error);
       throw new Error(`Bedrock API error: ${error.message}`);
     }
   }
