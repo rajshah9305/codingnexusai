@@ -59,24 +59,24 @@ const AgentDashboard = ({ agents, activeAgents, metrics, executionPlan }) => {
 
   return (
     <div className="h-full flex flex-col bg-white">
-      {/* Header */}
-      <div className="px-6 py-4 border-b border-gray-200">
+      {/* Clear Header */}
+      <div className="px-6 py-4 border-b-2 border-gray-200 bg-white">
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-xl font-bold text-black">Multi-Agent System</h2>
-            <p className="text-sm text-gray-600 mt-1">
+            <h2 className="text-xl font-bold text-gray-900">Multi-Agent System</h2>
+            <p className="text-base text-gray-700 mt-1 font-semibold">
               {agents?.length || 0} specialized agents working collaboratively
             </p>
           </div>
           {metrics && (
-            <div className="flex gap-4">
-              <div className="text-center">
+            <div className="flex gap-6">
+              <div className="text-center px-4 py-2 bg-orange-50 rounded-lg border-2 border-orange-500">
                 <div className="text-2xl font-bold text-orange-600">{metrics.totalExecutions || 0}</div>
-                <div className="text-xs text-gray-600">Total Tasks</div>
+                <div className="text-sm text-orange-700 font-semibold">Total Tasks</div>
               </div>
-              <div className="text-center">
-                <div className="text-2xl font-bold text-orange-600">{activeAgents?.length || 0}</div>
-                <div className="text-xs text-gray-600">Active Now</div>
+              <div className="text-center px-4 py-2 bg-green-50 rounded-lg border-2 border-green-500">
+                <div className="text-2xl font-bold text-green-600">{activeAgents?.length || 0}</div>
+                <div className="text-sm text-green-700 font-semibold">Active Now</div>
               </div>
             </div>
           )}

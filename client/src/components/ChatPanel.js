@@ -203,15 +203,15 @@ const ChatPanel = ({ history, onSendMessage, isGenerating, multiAgentMode }) => 
       );
     }
 
-    // User message
+    // User message - High Contrast
     return (
       <div key={index} className="mb-4 animate-slide-up flex justify-end">
-        <div className="bg-orange-500 rounded-xl px-4 py-3 max-w-[80%]">
-          <div className="flex items-center gap-2 mb-1">
-            <div className="w-1.5 h-1.5 bg-white rounded-full"></div>
-            <span className="text-sm font-semibold text-white">You</span>
+        <div className="bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl px-5 py-3 max-w-[80%] shadow-md">
+          <div className="flex items-center gap-2 mb-2">
+            <div className="w-2 h-2 bg-white rounded-full"></div>
+            <span className="text-sm font-bold text-white">You</span>
           </div>
-          <p className="text-sm text-white leading-relaxed">{msg.content}</p>
+          <p className="text-base text-white leading-relaxed font-medium">{msg.content}</p>
         </div>
       </div>
     );
@@ -225,64 +225,61 @@ const ChatPanel = ({ history, onSendMessage, isGenerating, multiAgentMode }) => 
   ];
 
   return (
-    <div className="panel h-full bg-gradient-to-b from-white to-gray-50">
-      {/* Premium Chat Header */}
-      <div className="px-6 py-4 border-b border-gray-200 bg-white">
+    <div className="panel h-full bg-white">
+      {/* Clear Chat Header */}
+      <div className="px-6 py-4 border-b-2 border-gray-200 bg-white">
         <div className="flex items-center justify-between w-full">
           <div className="flex items-center gap-3">
-            {/* Premium Icon with Glow */}
-            <div className="relative">
-              <div className="absolute inset-0 bg-orange-500 blur-md opacity-30 rounded-lg"></div>
-              <div className="relative w-10 h-10 bg-gradient-to-br from-orange-500 to-orange-600 rounded-lg flex items-center justify-center shadow-lg">
-                {multiAgentMode ? <Users className="w-5 h-5 text-white" /> : <Sparkles className="w-5 h-5 text-white" />}
-              </div>
+            {/* Clear Icon */}
+            <div className="w-11 h-11 bg-gradient-to-br from-orange-500 to-orange-600 rounded-lg flex items-center justify-center shadow-md">
+              {multiAgentMode ? <Users className="w-6 h-6 text-white" strokeWidth={2.5} /> : <Sparkles className="w-6 h-6 text-white" strokeWidth={2.5} />}
             </div>
             
-            {/* Title */}
+            {/* Title - High Contrast */}
             <div>
-              <h3 className="text-lg font-bold text-gray-900">AI Assistant</h3>
+              <h3 className="text-xl font-bold text-gray-900">AI Assistant</h3>
               {multiAgentMode && (
-                <div className="flex items-center gap-1.5 mt-0.5">
-                  <div className="w-1.5 h-1.5 bg-orange-500 rounded-full animate-pulse"></div>
-                  <p className="text-xs text-orange-600 font-semibold uppercase tracking-wide">8-Agent Collaboration</p>
+                <div className="flex items-center gap-1.5 mt-1">
+                  <div className="w-2 h-2 bg-orange-500 rounded-full animate-pulse"></div>
+                  <p className="text-sm text-orange-600 font-bold uppercase tracking-wide">8-Agent Collaboration</p>
                 </div>
               )}
             </div>
           </div>
           
-          {/* Message Counter */}
+          {/* Message Counter - Clear */}
           {history.length > 0 && (
-            <div className="flex items-center gap-2 px-3 py-1.5 bg-gray-100 rounded-lg">
-              <div className="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
-              <span className="text-xs font-semibold text-gray-700">{history.length} Messages</span>
+            <div className="flex items-center gap-2 px-4 py-2 bg-gray-100 rounded-lg border border-gray-300">
+              <div className="w-2 h-2 bg-gray-600 rounded-full"></div>
+              <span className="text-sm font-bold text-gray-900">{history.length} Messages</span>
             </div>
           )}
         </div>
       </div>
 
-      {/* Messages */}
-      <div className="flex-1 overflow-y-auto px-4 py-4 min-h-0">
+      {/* Messages - Clear Background */}
+      <div className="flex-1 overflow-y-auto px-6 py-6 min-h-0 bg-gray-50">
         {history.length === 0 ? (
           <div className="text-center mt-8">
-            <div className="inline-flex items-center justify-center w-14 h-14 bg-orange-50 rounded-xl mb-4">
-              <Sparkles className="w-7 h-7 text-orange-500" />
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-orange-100 rounded-xl mb-4 shadow-sm">
+              <Sparkles className="w-8 h-8 text-orange-600" strokeWidth={2.5} />
             </div>
-            <h4 className="heading-3 mb-2">Start a conversation</h4>
-            <p className="body text-gray-600 max-w-md mx-auto mb-6">
+            <h4 className="text-2xl font-bold text-gray-900 mb-3">Start a conversation</h4>
+            <p className="text-base text-gray-700 max-w-md mx-auto mb-6 font-medium">
               Ask me to generate code, debug issues, explain concepts, or build applications
             </p>
             
-            <div className="space-y-2 max-w-xl mx-auto">
-              <p className="caption uppercase tracking-wider mb-3">Suggestions</p>
+            <div className="space-y-3 max-w-xl mx-auto">
+              <p className="text-sm font-bold text-gray-600 uppercase tracking-wider mb-4">Quick Suggestions</p>
               {suggestions.map((suggestion, index) => (
                 <button
                   key={index}
                   onClick={() => setMessage(suggestion)}
-                  className="card-hover w-full text-left px-4 py-3 group"
+                  className="w-full text-left px-5 py-4 bg-white hover:bg-orange-50 border-2 border-gray-200 hover:border-orange-500 rounded-xl transition-all group shadow-sm hover:shadow-md"
                 >
-                  <div className="flex items-center gap-2">
-                    <div className="w-1.5 h-1.5 bg-orange-500 rounded-full group-hover:scale-150 transition-transform"></div>
-                    <span className="body text-gray-700 group-hover:text-gray-900 font-medium">{suggestion}</span>
+                  <div className="flex items-center gap-3">
+                    <div className="w-2 h-2 bg-orange-500 rounded-full group-hover:scale-150 transition-transform"></div>
+                    <span className="text-base text-gray-900 font-semibold">{suggestion}</span>
                   </div>
                 </button>
               ))}

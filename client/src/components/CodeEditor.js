@@ -125,40 +125,37 @@ const CodeEditor = ({ code, language, onChange, onLanguageChange }) => {
 
   return (
     <div className={`panel h-full ${isFullscreen ? 'fixed inset-0 z-50 bg-white' : ''}`}>
-      {/* Premium Editor Header */}
-      <div className="px-6 py-4 border-b border-gray-200 bg-white">
+      {/* Clear Editor Header */}
+      <div className="px-6 py-4 border-b-2 border-gray-200 bg-white">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            {/* Premium Icon */}
-            <div className="relative">
-              <div className="absolute inset-0 bg-orange-500 blur-md opacity-30 rounded-lg"></div>
-              <div className="relative w-10 h-10 bg-gradient-to-br from-orange-500 to-orange-600 rounded-lg flex items-center justify-center shadow-lg">
-                <Code className="w-5 h-5 text-white" />
-              </div>
+            {/* Clear Icon */}
+            <div className="w-11 h-11 bg-gradient-to-br from-orange-500 to-orange-600 rounded-lg flex items-center justify-center shadow-md">
+              <Code className="w-6 h-6 text-white" strokeWidth={2.5} />
             </div>
             
-            {/* Title & Stats */}
+            {/* Title & Stats - High Contrast */}
             <div>
-              <h3 className="text-lg font-bold text-gray-900">Code Editor</h3>
-              <div className="flex items-center gap-2 text-xs text-gray-500 font-medium mt-0.5">
-                <span className="flex items-center gap-1">
-                  <div className="w-1 h-1 bg-gray-400 rounded-full"></div>
+              <h3 className="text-xl font-bold text-gray-900">Code Editor</h3>
+              <div className="flex items-center gap-3 text-sm text-gray-700 font-semibold mt-1">
+                <span className="flex items-center gap-1.5">
+                  <div className="w-1.5 h-1.5 bg-gray-600 rounded-full"></div>
                   {getLineCount()} Lines
                 </span>
-                <span>•</span>
-                <span className="flex items-center gap-1">
-                  <div className="w-1 h-1 bg-gray-400 rounded-full"></div>
+                <span className="text-gray-400">•</span>
+                <span className="flex items-center gap-1.5">
+                  <div className="w-1.5 h-1.5 bg-gray-600 rounded-full"></div>
                   {code.length} Characters
                 </span>
               </div>
             </div>
             
-            {/* Language Selector - Premium */}
+            {/* Language Selector - Clear */}
             <div className="relative ml-4">
               <select
                 value={language}
                 onChange={(e) => onLanguageChange(e.target.value)}
-                className="appearance-none bg-gray-100 text-gray-900 border border-gray-200 rounded-lg px-4 py-2 pr-10 text-sm font-semibold min-w-[140px] hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-orange-500 transition-all cursor-pointer"
+                className="appearance-none bg-white text-gray-900 border-2 border-gray-300 rounded-lg px-4 py-2.5 pr-10 text-sm font-bold min-w-[140px] hover:border-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all cursor-pointer shadow-sm"
               >
                 {languages.map((lang) => (
                   <option key={lang.id} value={lang.id}>
@@ -166,53 +163,53 @@ const CodeEditor = ({ code, language, onChange, onLanguageChange }) => {
                   </option>
                 ))}
               </select>
-              <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" />
+              <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-600 pointer-events-none" />
             </div>
           </div>
 
-          {/* Action Buttons - Premium */}
+          {/* Action Buttons - Clear & Visible */}
           <div className="flex items-center gap-2">
             <button
               onClick={copyCode}
-              className="px-3 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700 hover:text-orange-600 transition-all flex items-center gap-2 text-sm font-semibold"
+              className="px-4 py-2.5 rounded-lg bg-white hover:bg-gray-50 text-gray-900 hover:text-orange-600 border-2 border-gray-300 hover:border-orange-500 transition-all flex items-center gap-2 text-sm font-bold shadow-sm"
               title="Copy Code"
             >
-              <Copy className="w-4 h-4" />
+              <Copy className="w-4 h-4" strokeWidth={2.5} />
               <span className="hidden md:inline">Copy</span>
             </button>
             <button
               onClick={downloadCode}
-              className="px-3 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700 hover:text-orange-600 transition-all flex items-center gap-2 text-sm font-semibold"
+              className="px-4 py-2.5 rounded-lg bg-white hover:bg-gray-50 text-gray-900 hover:text-orange-600 border-2 border-gray-300 hover:border-orange-500 transition-all flex items-center gap-2 text-sm font-bold shadow-sm"
               title="Download Code"
             >
-              <Download className="w-4 h-4" />
+              <Download className="w-4 h-4" strokeWidth={2.5} />
               <span className="hidden md:inline">Download</span>
             </button>
             <button
               onClick={toggleFullscreen}
-              className="px-3 py-2 rounded-lg bg-orange-500 hover:bg-orange-600 text-white transition-all flex items-center gap-2 text-sm font-semibold shadow-md hover:shadow-lg"
+              className="px-4 py-2.5 rounded-lg bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white transition-all flex items-center gap-2 text-sm font-bold shadow-md hover:shadow-lg"
               title={isFullscreen ? 'Exit Fullscreen' : 'Fullscreen'}
             >
-              <Maximize2 className="w-4 h-4" />
+              <Maximize2 className="w-4 h-4" strokeWidth={2.5} />
               <span className="hidden lg:inline">{isFullscreen ? 'Exit' : 'Fullscreen'}</span>
             </button>
           </div>
         </div>
         
-        {/* Keyboard Shortcuts Bar */}
-        <div className="hidden xl:flex items-center gap-4 mt-3 pt-3 border-t border-gray-100">
-          <span className="text-xs font-semibold text-gray-500 uppercase tracking-wide">Shortcuts:</span>
-          <div className="flex items-center gap-4 text-xs text-gray-600">
-            <div className="flex items-center gap-1.5">
-              <kbd className="px-2 py-1 bg-gray-100 rounded text-xs font-bold border border-gray-200">Ctrl+S</kbd>
+        {/* Keyboard Shortcuts Bar - Clear */}
+        <div className="hidden xl:flex items-center gap-4 mt-3 pt-3 border-t-2 border-gray-200">
+          <span className="text-sm font-bold text-gray-700 uppercase tracking-wide">Shortcuts:</span>
+          <div className="flex items-center gap-4 text-sm text-gray-900 font-semibold">
+            <div className="flex items-center gap-2">
+              <kbd className="px-2.5 py-1.5 bg-gray-100 rounded-md text-xs font-bold border-2 border-gray-300">Ctrl+S</kbd>
               <span>Save</span>
             </div>
-            <div className="flex items-center gap-1.5">
-              <kbd className="px-2 py-1 bg-gray-100 rounded text-xs font-bold border border-gray-200">Ctrl+/</kbd>
+            <div className="flex items-center gap-2">
+              <kbd className="px-2.5 py-1.5 bg-gray-100 rounded-md text-xs font-bold border-2 border-gray-300">Ctrl+/</kbd>
               <span>Comment</span>
             </div>
-            <div className="flex items-center gap-1.5">
-              <kbd className="px-2 py-1 bg-gray-100 rounded text-xs font-bold border border-gray-200">Ctrl+F</kbd>
+            <div className="flex items-center gap-2">
+              <kbd className="px-2.5 py-1.5 bg-gray-100 rounded-md text-xs font-bold border-2 border-gray-300">Ctrl+F</kbd>
               <span>Find</span>
             </div>
           </div>

@@ -115,71 +115,71 @@ const Sidebar = ({ onGenerate, onDebug, isGenerating, multiAgentMode, compact = 
     }
   };
 
-  // Premium Section Header Component
+  // Clear Section Header Component
   const SectionHeader = ({ title, section, icon: Icon }) => (
     <button
       onClick={() => toggleSection(section)}
-      className="w-full flex items-center justify-between px-6 py-4 text-left hover:bg-gray-50 transition-all group"
+      className="w-full flex items-center justify-between px-6 py-4 text-left bg-white hover:bg-gray-100 transition-all group border-b-2 border-gray-200"
     >
       <div className="flex items-center gap-3">
-        <div className="w-8 h-8 bg-gradient-to-br from-orange-500 to-orange-600 rounded-lg flex items-center justify-center shadow-sm group-hover:shadow-md transition-all">
-          <Icon className="w-4 h-4 text-white" strokeWidth={2.5} />
+        <div className="w-9 h-9 bg-gradient-to-br from-orange-500 to-orange-600 rounded-lg flex items-center justify-center shadow-md group-hover:shadow-lg transition-all">
+          <Icon className="w-5 h-5 text-white" strokeWidth={2.5} />
         </div>
-        <span className="text-sm font-bold text-gray-900 uppercase tracking-wide">{title}</span>
+        <span className="text-base font-bold text-gray-900 uppercase tracking-wide">{title}</span>
       </div>
-      <div className="w-6 h-6 bg-gray-100 group-hover:bg-orange-100 rounded-lg flex items-center justify-center transition-all">
+      <div className="w-7 h-7 bg-gray-200 group-hover:bg-orange-100 rounded-lg flex items-center justify-center transition-all border-2 border-gray-300 group-hover:border-orange-500">
         {expandedSections.includes(section) ? (
-          <ChevronDown className="w-4 h-4 text-gray-600 group-hover:text-orange-600 transition-colors" />
+          <ChevronDown className="w-5 h-5 text-gray-700 group-hover:text-orange-600 transition-colors" strokeWidth={2.5} />
         ) : (
-          <ChevronRight className="w-4 h-4 text-gray-600 group-hover:text-orange-600 transition-colors" />
+          <ChevronRight className="w-5 h-5 text-gray-700 group-hover:text-orange-600 transition-colors" strokeWidth={2.5} />
         )}
       </div>
     </button>
   );
 
-  // Premium sidebar content
+  // Clear sidebar content
   const renderContent = () => (
     <>
-      {/* Quick Actions Section - Premium */}
-      <div className="border-b border-gray-200">
+      {/* Quick Actions Section - Clear & Visible */}
+      <div className="border-b-2 border-gray-200">
         <SectionHeader title="Quick Actions" section="generate" icon={Zap} />
         {expandedSections.includes('generate') && (
-          <div className="px-4 py-3 space-y-2">
+          <div className="px-5 py-4 space-y-3 bg-white">
             {quickActions.map((action) => (
               <button
                 key={action.id}
                 onClick={() => handleQuickAction(action)}
                 disabled={isGenerating}
-                className="w-full flex items-center gap-3 px-4 py-3 text-left rounded-xl bg-white hover:bg-gradient-to-r hover:from-orange-50 hover:to-amber-50 border border-gray-200 hover:border-orange-300 transition-all disabled:opacity-50 disabled:cursor-not-allowed group shadow-sm hover:shadow-md"
+                className="w-full flex items-center gap-3 px-5 py-4 text-left rounded-xl bg-white hover:bg-orange-50 border-2 border-gray-300 hover:border-orange-500 transition-all disabled:opacity-50 disabled:cursor-not-allowed group shadow-md hover:shadow-lg"
               >
-                <div className="w-10 h-10 bg-gradient-to-br from-gray-100 to-gray-200 group-hover:from-orange-500 group-hover:to-orange-600 rounded-lg flex items-center justify-center transition-all shadow-sm">
-                  <action.icon className="w-5 h-5 text-gray-600 group-hover:text-white transition-colors" />
+                <div className="w-11 h-11 bg-gray-100 group-hover:bg-gradient-to-br group-hover:from-orange-500 group-hover:to-orange-600 rounded-lg flex items-center justify-center transition-all shadow-sm">
+                  <action.icon className="w-6 h-6 text-gray-700 group-hover:text-white transition-colors" strokeWidth={2.5} />
                 </div>
-                <span className="text-sm font-semibold text-gray-900 group-hover:text-orange-600 transition-colors">{action.label}</span>
+                <span className="text-base font-bold text-gray-900 group-hover:text-orange-600 transition-colors">{action.label}</span>
               </button>
             ))}
           </div>
         )}
       </div>
 
-      {/* Tools Section - Premium */}
-      <div className="border-b border-gray-200">
+      {/* Tools Section - Clear & Visible */}
+      <div className="border-b-2 border-gray-200">
         <SectionHeader title="Code Tools" section="tools" icon={Wrench} />
         {expandedSections.includes('tools') && (
-          <div className="px-4 py-3 space-y-2">
+          <div className="px-5 py-4 space-y-3 bg-white">
             {tools.map((tool) => (
               <button
                 key={tool.id}
                 onClick={tool.action}
                 disabled={isGenerating}
-                className="w-full flex items-start gap-3 px-4 py-3 text-left rounded-xl bg-white hover:bg-gray-50 border border-gray-200 hover:border-gray-300 transition-all disabled:opacity-50 disabled:cursor-not-allowed group shadow-sm hover:shadow-md"
+                className="w-full flex items-start gap-3 px-5 py-4 text-left rounded-xl bg-white hover:bg-gray-50 border-2 border-gray-300 hover:border-orange-500 transition-all disabled:opacity-50 disabled:cursor-not-allowed group shadow-md hover:shadow-lg"
               >
-                <div className="w-10 h-10 bg-gradient-to-br from-gray-100 to-gray-200 group-hover:from-orange-500 group-hover:to-orange-600 rounded-lg flex items-center justify-center flex-shrink-0 transition-all shadow-sm">
-                  <tool.icon className="w-5 h-5 text-gray-600 group-hover:text-white transition-colors" />
+                <div className="w-11 h-11 bg-gray-100 group-hover:bg-gradient-to-br group-hover:from-orange-500 group-hover:to-orange-600 rounded-lg flex items-center justify-center flex-shrink-0 transition-all shadow-sm">
+                  <tool.icon className="w-6 h-6 text-gray-700 group-hover:text-white transition-colors" strokeWidth={2.5} />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <div className="text-sm font-semibold text-gray-900 group-hover:text-orange-600 transition-colors">{tool.label}</div>
-                  <div className="text-xs text-gray-500 mt-0.5">{tool.description}</div>
+                  <div className="text-base font-bold text-gray-900 group-hover:text-orange-600 transition-colors">{tool.label}</div>
+                  <div className="text-sm text-gray-600 mt-1 font-medium">{tool.description}</div>
                 </div>
               </button>
             ))}
@@ -242,30 +242,27 @@ const Sidebar = ({ onGenerate, onDebug, isGenerating, multiAgentMode, compact = 
 
   return (
     <aside className="w-full bg-white flex flex-col flex-shrink-0">
-      {/* Premium Tools Header */}
-      <div className="px-6 py-4 border-b border-gray-200 bg-gradient-to-r from-gray-50 to-white">
+      {/* Clear Tools Header */}
+      <div className="px-6 py-4 border-b-2 border-gray-200 bg-white">
         <div className="flex items-center gap-3">
-          {/* Premium Icon with Glow */}
-          <div className="relative">
-            <div className="absolute inset-0 bg-orange-500 blur-md opacity-30 rounded-lg"></div>
-            <div className="relative w-10 h-10 bg-gradient-to-br from-orange-500 to-orange-600 rounded-lg flex items-center justify-center shadow-lg">
-              <Sparkles className="w-5 h-5 text-white" />
-            </div>
+          {/* Clear Icon */}
+          <div className="w-11 h-11 bg-gradient-to-br from-orange-500 to-orange-600 rounded-lg flex items-center justify-center shadow-md">
+            <Sparkles className="w-6 h-6 text-white" strokeWidth={2.5} />
           </div>
           
-          {/* Title */}
+          {/* Title - High Contrast */}
           <div>
-            <h2 className="text-lg font-bold text-gray-900">AI Tools</h2>
-            <div className="flex items-center gap-1.5 mt-0.5">
-              <div className="w-1.5 h-1.5 bg-orange-500 rounded-full animate-pulse"></div>
-              <p className="text-xs text-orange-600 font-semibold uppercase tracking-wide">8-Agent System</p>
+            <h2 className="text-xl font-bold text-gray-900">AI Tools</h2>
+            <div className="flex items-center gap-1.5 mt-1">
+              <div className="w-2 h-2 bg-orange-500 rounded-full animate-pulse"></div>
+              <p className="text-sm text-orange-600 font-bold uppercase tracking-wide">8-Agent System</p>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Scrollable Content */}
-      <div className="flex-1 overflow-y-auto bg-gradient-to-b from-white to-gray-50">{renderContent()}</div>
+      {/* Scrollable Content - Clear Background */}
+      <div className="flex-1 overflow-y-auto bg-gray-50">{renderContent()}</div>
 
       {/* Status - Only show when generating */}
       {isGenerating && (

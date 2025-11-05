@@ -12,9 +12,9 @@ const AgentCollaboration = ({ executionPlan, activeStep, agentResults, isExecuti
     return (
       <div className="h-full flex items-center justify-center bg-gray-50">
         <div className="text-center p-8">
-          <Activity className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-          <p className="text-gray-600 text-sm">No active collaboration</p>
-          <p className="text-gray-400 text-xs mt-2">Start a multi-agent task to see the collaboration flow</p>
+          <Activity className="w-20 h-20 text-gray-400 mx-auto mb-4" strokeWidth={2} />
+          <p className="text-gray-900 text-lg font-bold">No active collaboration</p>
+          <p className="text-gray-600 text-base mt-2 font-medium">Start a multi-agent task to see the collaboration flow</p>
         </div>
       </div>
     );
@@ -61,19 +61,19 @@ const AgentCollaboration = ({ executionPlan, activeStep, agentResults, isExecuti
 
   return (
     <div className="h-full flex flex-col bg-white">
-      {/* Header */}
-      <div className="px-6 py-4 border-b border-gray-200">
+      {/* Clear Header */}
+      <div className="px-6 py-4 border-b-2 border-gray-200 bg-white">
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-xl font-bold text-black">Agent Collaboration</h2>
-            <p className="text-sm text-gray-600 mt-1">
+            <h2 className="text-xl font-bold text-gray-900">Agent Collaboration</h2>
+            <p className="text-base text-gray-700 mt-1 font-semibold">
               {executionPlan.executionSequence?.length || 0} tasks in execution plan
             </p>
           </div>
           {isExecuting && (
-            <div className="flex items-center gap-2 px-3 py-2 bg-orange-50 border border-orange-200 rounded-lg">
-              <Loader2 className="w-4 h-4 text-orange-600 animate-spin" />
-              <span className="text-sm font-semibold text-orange-600">Executing...</span>
+            <div className="flex items-center gap-2 px-4 py-2 bg-orange-50 border-2 border-orange-500 rounded-lg">
+              <Loader2 className="w-5 h-5 text-orange-600 animate-spin" strokeWidth={2.5} />
+              <span className="text-base font-bold text-orange-600">Executing...</span>
             </div>
           )}
         </div>
