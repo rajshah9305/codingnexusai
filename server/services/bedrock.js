@@ -2,20 +2,28 @@ const { BedrockRuntimeClient, InvokeModelCommand } = require('@aws-sdk/client-be
 
 class BedrockService {
   constructor() {
-    const config = {
-      region: process.env.AWS_REGION || 'us-west-2'
-    };
+    // Check if we should use mock mode (no AWS credentials)
+    this.mockMode = !process.env.AWS_ACCESS_KEY_ID && !process.env.AWS_SECRET_ACCESS_KEY;
     
-    // Only add credentials if they're explicitly set
-    if (process.env.AWS_ACCESS_KEY_ID && process.env.AWS_SECRET_ACCESS_KEY) {
-      config.credentials = {
-        accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
+    if (this.mockMode) {
+      console.log('[Bedrock] Running in MOCK mode - AWS credentials not configured');
+      this.client = null;
+    } else {
+      const config = {
+        region: process.env.AWS_REGION || 'us-west-2'
       };
+      
+      // Only add credentials if they're explicitly set
+      if (process.env.AWS_ACCESS_KEY_ID && process.env.AWS_SECRET_ACCESS_KEY) {
+        config.credentials = {
+          accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+          secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
+        };
+      }
+      // Otherwise, AWS SDK will use default credential chain (AWS CLI, IAM role, etc.)
+      
+      this.client = new BedrockRuntimeClient(config);
     }
-    // Otherwise, AWS SDK will use default credential chain (AWS CLI, IAM role, etc.)
-    
-    this.client = new BedrockRuntimeClient(config);
     
     // Using foundation models available in us-west-2
     this.models = {
@@ -85,6 +93,11 @@ class BedrockService {
   }
 
   async generateCode(prompt, modelKey = 'claude-3.5-sonnet-v2') {
+    // Return mock response if in mock mode
+    if (this.mockMode) {
+      return this.generateMockResponse(prompt, modelKey);
+    }
+    
     const modelId = this.models[modelKey];
     
     if (!modelId) {
@@ -192,6 +205,68 @@ class BedrockService {
     if (text.includes('public class')) return 'java';
     if (text.includes('function') || text.includes('const ')) return 'javascript';
     return 'text';
+  }
+
+  generateMockResponse(prompt, modelKey) {
+    console.log(`[Bedrock Mock] Generating mock response for: ${prompt.substring(0, 50)}...`);
+    
+    // Generate a simple mock code response based on the prompt
+    let code = '';
+    let language = 'javascript';
+    
+    if (prompt.toLowerCase().includes('react') || prompt.toLowerCase().includes('component')) {
+      code = `import React, { useState } from 'react';
+
+function ExampleComponent() {
+  const [count, setCount] = useState(0);
+
+  return (
+    <div className="p-4">
+      <h1 className="text-2xl font-bold mb-4">Example Component</h1>
+      <p className="mb-2">Count: {count}</p>
+      <button 
+        onClick={() => setCount(count + 1)}
+        className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+      >
+        Increment
+      </button>
+    </div>
+  );
+}
+
+export default ExampleComponent;`;
+      language = 'javascript';
+    } else if (prompt.toLowerCase().includes('python')) {
+      code = `def example_function():
+    """
+    Example Python function
+    """
+    result = []
+    for i in range(10):
+        result.append(i * 2)
+    return result
+
+if __name__ == "__main__":
+    print(example_function())`;
+      language = 'python';
+    } else {
+      code = `// Example JavaScript code
+function exampleFunction() {
+  console.log("Hello from mock response!");
+  return "This is a mock response - configure AWS credentials for real AI generation";
+}
+
+exampleFunction();`;
+      language = 'javascript';
+    }
+
+    return {
+      code: [code],
+      explanation: `**MOCK MODE**: AWS Bedrock credentials are not configured. This is a sample response.\n\nTo enable real AI code generation:\n1. Set AWS_ACCESS_KEY_ID in your .env file\n2. Set AWS_SECRET_ACCESS_KEY in your .env file\n3. Ensure you have access to AWS Bedrock models in us-west-2\n\nPrompt received: ${prompt.substring(0, 100)}...`,
+      language: language,
+      model: modelKey,
+      mockMode: true
+    };
   }
 }
 

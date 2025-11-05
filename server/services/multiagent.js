@@ -141,6 +141,12 @@ class MultiAgentOrchestrator {
     
     console.log('[Orchestrator] Starting multi-agent orchestration...');
     
+    // Check if Bedrock is in mock mode
+    if (this.bedrock.mockMode) {
+      console.log('[Orchestrator] Running in MOCK mode');
+      return this.generateMockOrchestration(userRequest, options);
+    }
+    
     try {
       // Step 1: Supervisor creates execution plan (with retry)
       const executionPlan = await this.retryWithBackoff(
@@ -544,6 +550,54 @@ You are part of a multi-agent system working collaboratively to deliver high-qua
       goal: agent.goal,
       capabilities: agent.capabilities
     }));
+  }
+
+  /**
+   * Generate mock orchestration response when AWS is not configured
+   */
+  generateMockOrchestration(userRequest, options) {
+    console.log('[Orchestrator Mock] Generating mock orchestration response');
+    
+    const mockCode = `import React, { useState } from 'react';
+
+function MockComponent() {
+  const [data, setData] = useState([]);
+
+  return (
+    <div className="p-6 max-w-4xl mx-auto">
+      <h1 className="text-3xl font-bold mb-4 text-orange-600">
+        Mock Response - Configure AWS Credentials
+      </h1>
+      <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-4">
+        <p className="text-sm text-yellow-700">
+          <strong>Note:</strong> This is a mock response. To enable real AI code generation:
+        </p>
+        <ol className="list-decimal list-inside text-sm text-yellow-700 mt-2">
+          <li>Set AWS_ACCESS_KEY_ID in server/.env</li>
+          <li>Set AWS_SECRET_ACCESS_KEY in server/.env</li>
+          <li>Ensure AWS Bedrock access in us-west-2</li>
+        </ol>
+      </div>
+      <p className="text-gray-700">
+        Your request: <strong>{userRequest.substring(0, 100)}</strong>
+      </p>
+    </div>
+  );
+}
+
+export default MockComponent;`;
+
+    const executionPlan = this.createDefaultPlan(userRequest, options);
+    
+    return {
+      code: [mockCode],
+      explanation: `**MOCK MODE ACTIVE**\n\nAWS Bedrock credentials are not configured. This is a sample multi-agent response.\n\n**Your Request:** ${userRequest}\n\n**Execution Plan:**\n- Task Type: ${executionPlan.taskType}\n- Complexity: ${executionPlan.complexity}\n- Agents Involved: ${executionPlan.requiredAgents.join(', ')}\n\n**To Enable Real AI Generation:**\n1. Configure AWS_ACCESS_KEY_ID in server/.env\n2. Configure AWS_SECRET_ACCESS_KEY in server/.env\n3. Ensure you have AWS Bedrock model access in us-west-2 region\n\n**Multi-Agent Features (when enabled):**\n- Code Generation Agent: Creates production-ready code\n- Testing Agent: Generates comprehensive test suites\n- Security Agent: Performs security audits\n- Performance Agent: Optimizes for speed and efficiency\n- Documentation Agent: Creates detailed documentation`,
+      language: 'javascript',
+      status: 'completed',
+      executionPlan: executionPlan,
+      agentContributions: executionPlan.requiredAgents,
+      mockMode: true
+    };
   }
 }
 

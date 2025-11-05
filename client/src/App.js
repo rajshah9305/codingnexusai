@@ -203,7 +203,7 @@ function App() {
         {/* Professional 3-Pane Layout: Chat | Editor | Tools */}
         
         {/* LEFT PANE: Chat & Agent Collaboration */}
-        <div className="hidden md:flex md:w-[320px] lg:w-[360px] flex-col border-r border-gray-200 bg-white overflow-hidden flex-shrink-0">
+        <div className="hidden md:flex md:w-[300px] lg:w-[340px] flex-col border-r border-gray-200 bg-white overflow-hidden flex-shrink-0">
           {/* Chat Panel - Full Height */}
           <div className="flex-1 overflow-hidden">
             <ChatPanel
@@ -215,7 +215,7 @@ function App() {
           </div>
           
           {/* Agent Collaboration - Compact Bottom Section */}
-          <div className="h-[160px] border-t border-gray-200 overflow-hidden">
+          <div className="h-[140px] border-t border-gray-200 overflow-hidden">
             <AgentCollaboration
               executionPlan={executionPlan}
               activeStep={activeStep}
@@ -238,7 +238,7 @@ function App() {
           </div>
           
           {/* Agent Dashboard - Compact Bottom Bar */}
-          <div className="h-[120px] border-t border-gray-200 bg-white overflow-hidden">
+          <div className="h-[100px] border-t border-gray-200 bg-white overflow-hidden">
             <AgentDashboard
               agents={agents}
               activeAgents={activeAgents}
@@ -249,7 +249,7 @@ function App() {
         </div>
         
         {/* RIGHT PANE: Tools & Actions */}
-        <div className="hidden lg:flex w-[280px] xl:w-[300px] flex-col bg-white border-l border-gray-200 overflow-hidden flex-shrink-0">
+        <div className="hidden lg:flex w-[260px] xl:w-[280px] flex-col bg-white border-l border-gray-200 overflow-hidden flex-shrink-0">
           <Sidebar 
             onGenerate={handleGenerate}
             onDebug={handleDebug}
