@@ -6,8 +6,6 @@ import { ArrowRight, CheckCircle2, Clock, Loader2, AlertCircle, Activity } from 
  * Shows real-time agent collaboration and task execution flow
  */
 const AgentCollaboration = ({ executionPlan, activeStep, agentResults, isExecuting }) => {
-  const [expandedAgent, setExpandedAgent] = useState(null);
-
   if (!executionPlan) {
     return (
       <div className="h-full flex items-center justify-center bg-gray-50 px-3">
@@ -30,32 +28,6 @@ const AgentCollaboration = ({ executionPlan, activeStep, agentResults, isExecuti
       return 'completed';
     }
     return 'pending';
-  };
-
-  const getStatusIcon = (status) => {
-    switch (status) {
-      case 'completed':
-        return <CheckCircle2 className="w-5 h-5 text-green-600" />;
-      case 'active':
-        return <Loader2 className="w-5 h-5 text-orange-600 animate-spin" />;
-      case 'pending':
-        return <Clock className="w-5 h-5 text-gray-400" />;
-      default:
-        return <AlertCircle className="w-5 h-5 text-gray-400" />;
-    }
-  };
-
-  const getStepColor = (status) => {
-    switch (status) {
-      case 'completed':
-        return 'border-green-500 bg-green-50';
-      case 'active':
-        return 'border-orange-500 bg-orange-50';
-      case 'pending':
-        return 'border-gray-300 bg-gray-50';
-      default:
-        return 'border-gray-300 bg-gray-50';
-    }
   };
 
   return (

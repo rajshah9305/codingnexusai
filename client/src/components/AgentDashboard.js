@@ -6,8 +6,6 @@ import { Users, Activity, CheckCircle, Clock, Zap, Shield, TestTube, FileText, C
  * Displays agent status, metrics, and orchestration visualization
  */
 const AgentDashboard = ({ agents, activeAgents, metrics, executionPlan }) => {
-  const [selectedAgent, setSelectedAgent] = useState(null);
-
   const agentIcons = {
     supervisor: Users,
     codeGenerator: Cpu,
@@ -29,32 +27,6 @@ const AgentDashboard = ({ agents, activeAgents, metrics, executionPlan }) => {
     if (activeAgents.includes(agentId)) return 'active';
     if (executionPlan?.requiredAgents?.includes(agentId)) return 'pending';
     return 'idle';
-  };
-
-  const getStatusColor = (status) => {
-    switch (status) {
-      case 'active':
-        return 'bg-orange-50 border-orange-500 text-orange-700';
-      case 'pending':
-        return 'bg-yellow-50 border-yellow-500 text-yellow-700';
-      case 'completed':
-        return 'bg-green-50 border-green-500 text-green-700';
-      default:
-        return 'bg-gray-50 border-gray-300 text-gray-600';
-    }
-  };
-
-  const getStatusIcon = (status) => {
-    switch (status) {
-      case 'active':
-        return <Activity className="w-4 h-4 animate-pulse" />;
-      case 'pending':
-        return <Clock className="w-4 h-4" />;
-      case 'completed':
-        return <CheckCircle className="w-4 h-4" />;
-      default:
-        return null;
-    }
   };
 
   return (
