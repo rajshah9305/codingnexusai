@@ -17,9 +17,10 @@ function App() {
   const [isGenerating, setIsGenerating] = useState(false);
   const [chatHistory, setChatHistory] = useState([]);
   const [layout, setLayout] = useState('split');
+  const [hasPreview, setHasPreview] = useState(false); // eslint-disable-line no-unused-vars
   
   // Multi-Agent State (Always Enabled)
-  const [multiAgentMode] = useState(true);
+  const [multiAgentMode] = useState(true); // eslint-disable-line no-unused-vars
   const [agents, setAgents] = useState([]);
   const [agentMetrics, setAgentMetrics] = useState(null);
   const [activeAgents, setActiveAgents] = useState([]);
@@ -76,9 +77,22 @@ function App() {
 
   const handleCodeChange = (newCode) => {
     setCode(newCode);
+    
+    // Check if code contains HTML/CSS/JS that can be previewed
+    const hasPreviewableContent = 
+      newCode.includes('<html') || 
+      newCode.includes('<!DOCTYPE') || 
+      newCode.includes('<div') ||
+      newCode.includes('<body') ||
+      (language === 'html' || language === 'css' || language === 'javascript');
+    
+    setHasPreview(hasPreviewableContent);
+    
     clearTimeout(window.previewTimeout);
     window.previewTimeout = setTimeout(() => {
-      aiService.updatePreview(newCode);
+      if (hasPreviewableContent) {
+        aiService.updatePreview(newCode);
+      }
     }, 500);
   };
 
@@ -112,6 +126,17 @@ function App() {
       if (result.code && result.code.length > 0) {
         setCode(result.code[0]);
         setLanguage(result.language);
+        
+        // Check if generated code is previewable
+        const generatedCode = result.code[0];
+        const isPreviewable = 
+          generatedCode.includes('<html') || 
+          generatedCode.includes('<!DOCTYPE') || 
+          generatedCode.includes('<div') ||
+          generatedCode.includes('<body') ||
+          result.language === 'html';
+        
+        setHasPreview(isPreviewable);
       }
       
       setChatHistory(prev => [...prev, {
@@ -163,7 +188,7 @@ function App() {
   };
 
   return (
-    <div className="container-fluid bg-white">
+    <div className="container-fluid bg-gradient-to-br from-gray-50 to-white">
       <Header 
         selectedModel={selectedModel}
         models={models}
@@ -175,74 +200,76 @@ function App() {
       />
       
       <div className="flex-1 flex overflow-hidden min-h-0">
-        {/* Main Content Area */}
-        <div className="flex-1 flex overflow-hidden">
-          {/* Chat + Preview Panel OR Agent Dashboard */}
-          {(layout === 'split' || layout === 'preview') && (
-            <div className={`${layout === 'split' ? 'w-[52%]' : 'w-full'} flex flex-col border-r border-gray-200 bg-white`}>
-              {/* Chat Panel */}
-              <div className="h-1/2 border-b border-gray-200">
-                <ChatPanel
-                  history={chatHistory}
-                  onSendMessage={(message) => handleGenerate(message)}
-                  isGenerating={isGenerating}
-                  multiAgentMode={true}
-                />
-              </div>
-              
-              {/* Agent Collaboration View */}
-              <div className="h-1/2">
-                <AgentCollaboration
-                  executionPlan={executionPlan}
-                  activeStep={activeStep}
-                  agentResults={{}}
-                  isExecuting={isGenerating}
-                />
-              </div>
-            </div>
-          )}
+        {/* Main Content Area - Responsive Grid Layout */}
+        <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-0 overflow-hidden">
           
-          {/* Code Editor OR Agent Dashboard */}
-          {(layout === 'split' || layout === 'editor') && (
-            <div className={`${layout === 'split' ? 'w-[48%]' : 'w-full'} bg-white`}>
-              {multiAgentMode && layout === 'split' ? (
-                <div className="h-full flex flex-col">
-                  <div className="h-1/2 border-b border-gray-200">
-                    <CodeEditor
-                      code={code}
-                      language={language}
-                      onChange={handleCodeChange}
-                      onLanguageChange={setLanguage}
-                    />
-                  </div>
-                  <div className="h-1/2">
-                    <AgentDashboard
-                      agents={agents}
-                      activeAgents={activeAgents}
-                      metrics={agentMetrics}
-                      executionPlan={executionPlan}
-                    />
-                  </div>
-                </div>
-              ) : (
-                <CodeEditor
-                  code={code}
-                  language={language}
-                  onChange={handleCodeChange}
-                  onLanguageChange={setLanguage}
-                />
-              )}
+          {/* Left Column: Chat + Agent Collaboration */}
+          <div className="flex flex-col border-r border-gray-200 bg-white overflow-hidden">
+            {/* Chat Panel */}
+            <div className="flex-1 border-b border-gray-200 overflow-hidden">
+              <ChatPanel
+                history={chatHistory}
+                onSendMessage={(message) => handleGenerate(message)}
+                isGenerating={isGenerating}
+                multiAgentMode={true}
+              />
             </div>
-          )}
+            
+            {/* Agent Collaboration View */}
+            <div className="flex-1 overflow-hidden">
+              <AgentCollaboration
+                executionPlan={executionPlan}
+                activeStep={activeStep}
+                agentResults={{}}
+                isExecuting={isGenerating}
+              />
+            </div>
+          </div>
+          
+          {/* Middle Column: Code Editor + Agent Dashboard */}
+          <div className="flex flex-col border-r border-gray-200 bg-white overflow-hidden">
+            {/* Code Editor */}
+            <div className="flex-1 border-b border-gray-200 overflow-hidden">
+              <CodeEditor
+                code={code}
+                language={language}
+                onChange={handleCodeChange}
+                onLanguageChange={setLanguage}
+              />
+            </div>
+            
+            {/* Agent Dashboard */}
+            <div className="flex-1 overflow-hidden">
+              <AgentDashboard
+                agents={agents}
+                activeAgents={activeAgents}
+                metrics={agentMetrics}
+                executionPlan={executionPlan}
+              />
+            </div>
+          </div>
+          
+          {/* Right Column: Sidebar (Always Visible on Desktop) */}
+          <div className="hidden xl:flex flex-col bg-white overflow-hidden">
+            <Sidebar 
+              onGenerate={handleGenerate}
+              onDebug={handleDebug}
+              isGenerating={isGenerating}
+              multiAgentMode={true}
+            />
+          </div>
         </div>
         
-        {/* Sidebar */}
-        <Sidebar 
-          onGenerate={handleGenerate}
-          onDebug={handleDebug}
-          isGenerating={isGenerating}
-          multiAgentMode={true}
-        />
+        {/* Mobile/Tablet Sidebar (Floating) */}
+        <div className="xl:hidden fixed bottom-4 right-4 z-50">
+          <Sidebar 
+            onGenerate={handleGenerate}
+            onDebug={handleDebug}
+            isGenerating={isGenerating}
+            multiAgentMode={true}
+            compact={true}
+          />
+        </div>
       </div>
       
       <Toaster 
