@@ -225,24 +225,36 @@ const ChatPanel = ({ history, onSendMessage, isGenerating, multiAgentMode }) => 
   ];
 
   return (
-    <div className="panel h-full">
-      {/* Chat Header */}
-      <div className="panel-header">
+    <div className="panel h-full bg-gradient-to-b from-white to-gray-50">
+      {/* Premium Chat Header */}
+      <div className="px-6 py-4 border-b border-gray-200 bg-white">
         <div className="flex items-center justify-between w-full">
-          <div className="flex items-center gap-2">
-            <div className={`icon-primary w-8 h-8 ${multiAgentMode ? 'bg-gradient-to-br from-orange-500 to-orange-600' : ''}`}>
-              {multiAgentMode ? <Users className="w-4 h-4" /> : <Sparkles className="w-4 h-4" />}
+          <div className="flex items-center gap-3">
+            {/* Premium Icon with Glow */}
+            <div className="relative">
+              <div className="absolute inset-0 bg-orange-500 blur-md opacity-30 rounded-lg"></div>
+              <div className="relative w-10 h-10 bg-gradient-to-br from-orange-500 to-orange-600 rounded-lg flex items-center justify-center shadow-lg">
+                {multiAgentMode ? <Users className="w-5 h-5 text-white" /> : <Sparkles className="w-5 h-5 text-white" />}
+              </div>
             </div>
+            
+            {/* Title */}
             <div>
-              <h3 className="heading-4 text-base">AI Chat</h3>
+              <h3 className="text-lg font-bold text-gray-900">AI Assistant</h3>
               {multiAgentMode && (
-                <p className="text-xs text-orange-600 font-semibold">Multi-Agent Mode Active</p>
+                <div className="flex items-center gap-1.5 mt-0.5">
+                  <div className="w-1.5 h-1.5 bg-orange-500 rounded-full animate-pulse"></div>
+                  <p className="text-xs text-orange-600 font-semibold uppercase tracking-wide">8-Agent Collaboration</p>
+                </div>
               )}
             </div>
           </div>
+          
+          {/* Message Counter */}
           {history.length > 0 && (
-            <div className="flex items-center gap-2">
-              <span className="caption">{history.length} messages</span>
+            <div className="flex items-center gap-2 px-3 py-1.5 bg-gray-100 rounded-lg">
+              <div className="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
+              <span className="text-xs font-semibold text-gray-700">{history.length} Messages</span>
             </div>
           )}
         </div>

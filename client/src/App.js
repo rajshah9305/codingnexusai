@@ -188,7 +188,7 @@ function App() {
   };
 
   return (
-    <div className="container-fluid bg-gradient-to-br from-gray-50 to-white">
+    <div className="container-fluid bg-white">
       <Header 
         selectedModel={selectedModel}
         models={models}
@@ -200,68 +200,66 @@ function App() {
       />
       
       <div className="flex-1 flex overflow-hidden min-h-0">
-        {/* Main Content Area - Responsive Grid Layout */}
-        <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-0 overflow-hidden">
-          
-          {/* Left Column: Chat + Agent Collaboration */}
-          <div className="flex flex-col border-r border-gray-200 bg-white overflow-hidden">
-            {/* Chat Panel */}
-            <div className="flex-1 border-b border-gray-200 overflow-hidden">
-              <ChatPanel
-                history={chatHistory}
-                onSendMessage={(message) => handleGenerate(message)}
-                isGenerating={isGenerating}
-                multiAgentMode={true}
-              />
-            </div>
-            
-            {/* Agent Collaboration View */}
-            <div className="flex-1 overflow-hidden">
-              <AgentCollaboration
-                executionPlan={executionPlan}
-                activeStep={activeStep}
-                agentResults={{}}
-                isExecuting={isGenerating}
-              />
-            </div>
-          </div>
-          
-          {/* Middle Column: Code Editor + Agent Dashboard */}
-          <div className="flex flex-col border-r border-gray-200 bg-white overflow-hidden">
-            {/* Code Editor */}
-            <div className="flex-1 border-b border-gray-200 overflow-hidden">
-              <CodeEditor
-                code={code}
-                language={language}
-                onChange={handleCodeChange}
-                onLanguageChange={setLanguage}
-              />
-            </div>
-            
-            {/* Agent Dashboard */}
-            <div className="flex-1 overflow-hidden">
-              <AgentDashboard
-                agents={agents}
-                activeAgents={activeAgents}
-                metrics={agentMetrics}
-                executionPlan={executionPlan}
-              />
-            </div>
-          </div>
-          
-          {/* Right Column: Sidebar (Always Visible on Desktop) */}
-          <div className="hidden xl:flex flex-col bg-white overflow-hidden">
-            <Sidebar 
-              onGenerate={handleGenerate}
-              onDebug={handleDebug}
+        {/* Professional 3-Pane Layout: Chat | Editor | Tools */}
+        
+        {/* LEFT PANE: Chat & Agent Collaboration */}
+        <div className="w-full md:w-[380px] lg:w-[420px] flex flex-col border-r border-gray-200 bg-white overflow-hidden flex-shrink-0">
+          {/* Chat Panel - Full Height */}
+          <div className="flex-1 overflow-hidden">
+            <ChatPanel
+              history={chatHistory}
+              onSendMessage={(message) => handleGenerate(message)}
               isGenerating={isGenerating}
               multiAgentMode={true}
             />
           </div>
+          
+          {/* Agent Collaboration - Collapsible Bottom Section */}
+          <div className="h-[280px] border-t border-gray-200 overflow-hidden">
+            <AgentCollaboration
+              executionPlan={executionPlan}
+              activeStep={activeStep}
+              agentResults={{}}
+              isExecuting={isGenerating}
+            />
+          </div>
         </div>
         
-        {/* Mobile/Tablet Sidebar (Floating) */}
-        <div className="xl:hidden fixed bottom-4 right-4 z-50">
+        {/* MIDDLE PANE: Code Editor (Primary Focus) */}
+        <div className="flex-1 flex flex-col bg-gray-50 overflow-hidden min-w-0">
+          {/* Code Editor - Full Height */}
+          <div className="flex-1 overflow-hidden">
+            <CodeEditor
+              code={code}
+              language={language}
+              onChange={handleCodeChange}
+              onLanguageChange={setLanguage}
+            />
+          </div>
+          
+          {/* Agent Dashboard - Bottom Status Bar */}
+          <div className="h-[200px] border-t border-gray-200 bg-white overflow-hidden">
+            <AgentDashboard
+              agents={agents}
+              activeAgents={activeAgents}
+              metrics={agentMetrics}
+              executionPlan={executionPlan}
+            />
+          </div>
+        </div>
+        
+        {/* RIGHT PANE: Tools & Actions */}
+        <div className="hidden lg:flex w-[320px] xl:w-[360px] flex-col bg-white border-l border-gray-200 overflow-hidden flex-shrink-0">
+          <Sidebar 
+            onGenerate={handleGenerate}
+            onDebug={handleDebug}
+            isGenerating={isGenerating}
+            multiAgentMode={true}
+          />
+        </div>
+        
+        {/* Mobile Tools Button (Floating) */}
+        <div className="lg:hidden fixed bottom-6 right-6 z-50">
           <Sidebar 
             onGenerate={handleGenerate}
             onDebug={handleDebug}

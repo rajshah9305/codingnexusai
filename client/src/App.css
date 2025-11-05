@@ -3,9 +3,9 @@
 @tailwind utilities;
 
 /* ============================================
-   AI CODING NEXUS - MODERN DESIGN SYSTEM
-   Clean • Balanced • Visually Engaging
-   Primary: Orange (#f97316) | Text: Gray-900 (#111827) | Background: White (#fff)
+   AI CODING NEXUS - ENTERPRISE DESIGN SYSTEM
+   Professional • Premium • Stand-Out
+   Primary: Orange (#f97316) | Dark: Gray-900 (#111827) | Accent: Orange-600 (#ea580c)
    ============================================ */
 
 /* ===== GLOBAL RESET & BASE STYLES ===== */
@@ -20,8 +20,23 @@ html, body, #root {
 }
 
 body {
-  @apply bg-gradient-to-br from-gray-50 to-white text-gray-900 font-sans;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+  @apply bg-white text-gray-900 font-sans;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+}
+
+/* ===== ENTERPRISE BRANDING ===== */
+.enterprise-gradient {
+  background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+}
+
+.enterprise-glow {
+  box-shadow: 0 0 20px rgba(249, 115, 22, 0.3);
+}
+
+.enterprise-border {
+  border: 2px solid transparent;
+  background: linear-gradient(white, white) padding-box,
+              linear-gradient(135deg, #f97316, #ea580c) border-box;
 }
 
 /* ===== SCROLLBAR STYLING ===== */
@@ -222,6 +237,21 @@ body {
   .panel-footer {
     @apply px-6 py-4 border-t border-gray-200 flex-shrink-0;
   }
+  
+  /* Premium Panel Variants */
+  .panel-premium {
+    @apply panel shadow-lg;
+    background: linear-gradient(to bottom, #ffffff 0%, #fafafa 100%);
+  }
+  
+  .panel-dark {
+    @apply panel bg-gray-900 text-white;
+  }
+  
+  .panel-gradient {
+    @apply panel;
+    background: linear-gradient(135deg, #ffffff 0%, #f9fafb 100%);
+  }
 }
 
 /* ===== ICONS ===== */
@@ -252,6 +282,14 @@ body {
   .animate-scale-in {
     animation: scaleIn 0.2s ease-out;
   }
+  
+  .animate-glow {
+    animation: glow 2s ease-in-out infinite;
+  }
+  
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
 }
 
 @keyframes slideUp {
@@ -278,6 +316,24 @@ body {
   to {
     opacity: 1;
     transform: scale(1);
+  }
+}
+
+@keyframes glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(249, 115, 22, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(249, 115, 22, 0.5);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-5px);
   }
 }
 
@@ -318,6 +374,13 @@ body {
   
   .glass-dark {
     @apply bg-gray-900/80 backdrop-blur-lg border border-gray-800/20 shadow-xl;
+  }
+  
+  .glass-premium {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(249, 115, 22, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
   }
 }
 

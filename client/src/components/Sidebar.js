@@ -115,67 +115,71 @@ const Sidebar = ({ onGenerate, onDebug, isGenerating, multiAgentMode, compact = 
     }
   };
 
-  // Section Header Component
+  // Premium Section Header Component
   const SectionHeader = ({ title, section, icon: Icon }) => (
     <button
       onClick={() => toggleSection(section)}
-      className="w-full flex items-center justify-between px-4 py-3 text-left hover:bg-gray-50 transition-colors"
+      className="w-full flex items-center justify-between px-6 py-4 text-left hover:bg-gray-50 transition-all group"
     >
-      <div className="flex items-center gap-2">
-        <Icon className="w-4 h-4 text-orange-500" strokeWidth={2} />
-        <span className="label text-sm">{title}</span>
+      <div className="flex items-center gap-3">
+        <div className="w-8 h-8 bg-gradient-to-br from-orange-500 to-orange-600 rounded-lg flex items-center justify-center shadow-sm group-hover:shadow-md transition-all">
+          <Icon className="w-4 h-4 text-white" strokeWidth={2.5} />
+        </div>
+        <span className="text-sm font-bold text-gray-900 uppercase tracking-wide">{title}</span>
       </div>
-      {expandedSections.includes(section) ? (
-        <ChevronDown className="w-4 h-4 text-gray-400" />
-      ) : (
-        <ChevronRight className="w-4 h-4 text-gray-400" />
-      )}
+      <div className="w-6 h-6 bg-gray-100 group-hover:bg-orange-100 rounded-lg flex items-center justify-center transition-all">
+        {expandedSections.includes(section) ? (
+          <ChevronDown className="w-4 h-4 text-gray-600 group-hover:text-orange-600 transition-colors" />
+        ) : (
+          <ChevronRight className="w-4 h-4 text-gray-600 group-hover:text-orange-600 transition-colors" />
+        )}
+      </div>
     </button>
   );
 
-  // Desktop sidebar content
+  // Premium sidebar content
   const renderContent = () => (
     <>
-      {/* Quick Actions Section */}
+      {/* Quick Actions Section - Premium */}
       <div className="border-b border-gray-200">
         <SectionHeader title="Quick Actions" section="generate" icon={Zap} />
         {expandedSections.includes('generate') && (
-          <div className="px-4 py-2 space-y-2">
+          <div className="px-4 py-3 space-y-2">
             {quickActions.map((action) => (
               <button
                 key={action.id}
                 onClick={() => handleQuickAction(action)}
                 disabled={isGenerating}
-                className="w-full flex items-center gap-3 px-3 py-2.5 text-left rounded-lg hover:bg-orange-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed group"
+                className="w-full flex items-center gap-3 px-4 py-3 text-left rounded-xl bg-white hover:bg-gradient-to-r hover:from-orange-50 hover:to-amber-50 border border-gray-200 hover:border-orange-300 transition-all disabled:opacity-50 disabled:cursor-not-allowed group shadow-sm hover:shadow-md"
               >
-                <div className="icon-secondary w-8 h-8 group-hover:bg-orange-100 transition-colors">
-                  <action.icon className="w-4 h-4 group-hover:text-orange-600" />
+                <div className="w-10 h-10 bg-gradient-to-br from-gray-100 to-gray-200 group-hover:from-orange-500 group-hover:to-orange-600 rounded-lg flex items-center justify-center transition-all shadow-sm">
+                  <action.icon className="w-5 h-5 text-gray-600 group-hover:text-white transition-colors" />
                 </div>
-                <span className="body-sm font-medium text-gray-900">{action.label}</span>
+                <span className="text-sm font-semibold text-gray-900 group-hover:text-orange-600 transition-colors">{action.label}</span>
               </button>
             ))}
           </div>
         )}
       </div>
 
-      {/* Tools Section */}
+      {/* Tools Section - Premium */}
       <div className="border-b border-gray-200">
-        <SectionHeader title="Tools" section="tools" icon={Wrench} />
+        <SectionHeader title="Code Tools" section="tools" icon={Wrench} />
         {expandedSections.includes('tools') && (
-          <div className="px-4 py-2 space-y-2">
+          <div className="px-4 py-3 space-y-2">
             {tools.map((tool) => (
               <button
                 key={tool.id}
                 onClick={tool.action}
                 disabled={isGenerating}
-                className="w-full flex items-start gap-3 px-3 py-2.5 text-left rounded-lg hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full flex items-start gap-3 px-4 py-3 text-left rounded-xl bg-white hover:bg-gray-50 border border-gray-200 hover:border-gray-300 transition-all disabled:opacity-50 disabled:cursor-not-allowed group shadow-sm hover:shadow-md"
               >
-                <div className="icon-secondary w-8 h-8 flex-shrink-0">
-                  <tool.icon className="w-4 h-4" />
+                <div className="w-10 h-10 bg-gradient-to-br from-gray-100 to-gray-200 group-hover:from-orange-500 group-hover:to-orange-600 rounded-lg flex items-center justify-center flex-shrink-0 transition-all shadow-sm">
+                  <tool.icon className="w-5 h-5 text-gray-600 group-hover:text-white transition-colors" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <div className="body-sm font-medium text-gray-900">{tool.label}</div>
-                  <div className="caption text-gray-500">{tool.description}</div>
+                  <div className="text-sm font-semibold text-gray-900 group-hover:text-orange-600 transition-colors">{tool.label}</div>
+                  <div className="text-xs text-gray-500 mt-0.5">{tool.description}</div>
                 </div>
               </button>
             ))}
@@ -237,22 +241,31 @@ const Sidebar = ({ onGenerate, onDebug, isGenerating, multiAgentMode, compact = 
   }
 
   return (
-    <aside className="w-64 bg-white border-l border-gray-200 flex flex-col flex-shrink-0">
-      {/* Header */}
-      <div className="panel-header">
-        <div className="flex items-center gap-2">
-          <div className="icon-primary w-8 h-8">
-            <Sparkles className="w-4 h-4" />
+    <aside className="w-full bg-white flex flex-col flex-shrink-0">
+      {/* Premium Tools Header */}
+      <div className="px-6 py-4 border-b border-gray-200 bg-gradient-to-r from-gray-50 to-white">
+        <div className="flex items-center gap-3">
+          {/* Premium Icon with Glow */}
+          <div className="relative">
+            <div className="absolute inset-0 bg-orange-500 blur-md opacity-30 rounded-lg"></div>
+            <div className="relative w-10 h-10 bg-gradient-to-br from-orange-500 to-orange-600 rounded-lg flex items-center justify-center shadow-lg">
+              <Sparkles className="w-5 h-5 text-white" />
+            </div>
           </div>
+          
+          {/* Title */}
           <div>
-            <h2 className="heading-4 text-base">AI Tools</h2>
-            <p className="text-xs text-orange-600 font-semibold">8-Agent System</p>
+            <h2 className="text-lg font-bold text-gray-900">AI Tools</h2>
+            <div className="flex items-center gap-1.5 mt-0.5">
+              <div className="w-1.5 h-1.5 bg-orange-500 rounded-full animate-pulse"></div>
+              <p className="text-xs text-orange-600 font-semibold uppercase tracking-wide">8-Agent System</p>
+            </div>
           </div>
         </div>
       </div>
 
       {/* Scrollable Content */}
-      <div className="flex-1 overflow-y-auto">{renderContent()}</div>
+      <div className="flex-1 overflow-y-auto bg-gradient-to-b from-white to-gray-50">{renderContent()}</div>
 
       {/* Status - Only show when generating */}
       {isGenerating && (
